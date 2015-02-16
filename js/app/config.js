@@ -6,7 +6,7 @@ define(function() {
         
         game: {
             width: window.innerWidth,
-            height: window.innerHeigh
+            height: window.innerHeight
         }
 
     }

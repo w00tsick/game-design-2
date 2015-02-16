@@ -6,5 +6,5 @@ requirejs.config({
     },
 });
 
-requirejs(['app/game'], function(phaser) {});
+requirejs(['app/game'], function(game) {});
 
