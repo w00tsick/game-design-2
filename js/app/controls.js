@@ -12,6 +12,7 @@ function(config) {
         this.player = player;
         game.keys = {};
         game.keys.e = game.input.keyboard.addKey(Phaser.Keyboard.E);
+        game.keys.w = game.input.keyboard.addKey(Phaser.Keyboard.W);
         game.keys.a = game.input.keyboard.addKey(Phaser.Keyboard.A);
         game.keys.space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     }
@@ -37,7 +38,7 @@ function(config) {
         }
 
         if (game.player.body.velocity.y == 0) {
-            if (game.keys.e.isDown) {
+            if (game.keys.e.isDown || game.keys.w.isDown) {
                 this.player.moveRight(game);
                 game.tile.x -= 5;
             } else if (game.keys.a.isDown) {
