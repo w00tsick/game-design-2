@@ -3,53 +3,39 @@ function(config) {
 
     "use strict";
 
-    var Controls = function()
-    {
-    }
+    var Controls = function() {}
 
-    Controls.prototype.bind = function(game, player)
+    Controls.prototype.bind = function(game, action, environment, player)
     {
-        this.player = player;
-        game.keys = {};
-        game.keys.e = game.input.keyboard.addKey(Phaser.Keyboard.E);
-        game.keys.w = game.input.keyboard.addKey(Phaser.Keyboard.W);
-        game.keys.a = game.input.keyboard.addKey(Phaser.Keyboard.A);
-        game.keys.space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        this.keyBindings = [
+            wrapper(action.stop),
+            action.bindKey([Phaser.Keyboard.A], wrapper(action.goLeft)),
+            action.bindKey([Phaser.Keyboard.E, Phaser.Keyboard.W],
+                wrapper(action.goRight)),
+            action.bindKey([Phaser.Keyboard.SPACEBAR], wrapper(action.jump))
+        ];
+
+        this.mouseBindings = [
+            mouseWrapper(action.shoot)
+        ];
+
+        function wrapper(func) {
+            return func.bind(null, game, environment, environment.getPlatform());
+        }
+
+        function mouseWrapper(func) {
+            return func.bind(null, game, player);
+        }
     }
 
     Controls.prototype.check = function(game)
     {
-
-        game.keys.space.onDown.add(function () {
-            if (game.player.body.velocity.y == 0) {
-                game.player.body.velocity.y = -500;
-            }
-        }, game.player);
-
-        if (game.input.activePointer.isDown) {
-            if (game.input.mousePointer.x >= game.player.x) {
-                game.player.play('run-right');
-                game.currentDirection = 'right';
-            } else if (game.input.mousePointer.x <= game.player.x) {
-                game.player.play('run-left');
-                game.currentDirection = 'left';
-            }
-            this.player.shoot(game);
-        }
-
-        if (game.player.body.velocity.y == 0) {
-            if (game.keys.e.isDown || game.keys.w.isDown) {
-                this.player.moveRight(game);
-                game.tile.x -= 5;
-            } else if (game.keys.a.isDown) {
-                this.player.moveLeft(game);
-                game.tile.x += 5;
-            } else {
-                this.player.dontMove(game);
-            }
-        } else {
-            this.player.moveUp(game);
-        }
+        this.keyBindings.forEach(function(binding) {
+            binding();
+        });
+        this.mouseBindings.forEach(function(binding) {
+            binding();
+        });
     }
 
     return new Controls();

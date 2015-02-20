@@ -38,65 +38,11 @@ function(config) {
         game.bullets = game.add.group();
         game.bullets.enableBody = true;
         game.bullets.physicsBodyType = Phaser.Physics.ARCADE;
-        game.bullets.setAll('checkWorldBounds', true);
-        game.bullets.setAll('outOfBoundsKill', true);
 
         game.bullets.createMultiple(50, 'bullet');
 
-        game.camera.follow(game.player);
-    }
- 
-    Player.prototype.dontMove = function(game)
-    {
-        game.player.body.velocity.x = 0;
-
-        if (game.currentDirection == 'right')
-        {
-            game.player.play('rest-right');
-        }
-        else if (game.currentDirection == 'left')
-        {
-            game.player.play('rest-left');
-        }
-    }
-
-    Player.prototype.moveLeft = function(game)
-    {
-        //game.player.body.velocity.x = this.movementSpeed * -1;
-        game.player.play('run-left');
-        game.currentDirection = 'left';
-    }
-
-    Player.prototype.moveRight = function(game)
-    {
-        //game.player.body.velocity.x = this.movementSpeed;
-        game.player.play('run-right');
-        game.currentDirection = 'right';
-    }
-
-    Player.prototype.moveUp = function(game)
-    {
-        if (game.currentDirection == 'right')
-        {
-            game.tile.x -= 5;
-            game.player.play('jump-right');
-        }
-        else if (game.currentDirection == 'left')
-        {
-            game.tile.x += 5;
-            game.player.play('jump-left');
-        }
-    }
-
-    Player.prototype.shoot = function(game)
-    {
-        if (game.time.now > game.nextFire && game.bullets.countDead() > 0)
-        {
-            game.nextFire = game.time.now + game.fireRate;
-            var bullet = game.bullets.getFirstDead();
-            bullet.reset(game.player.x, game.player.y);
-            game.physics.arcade.moveToPointer(bullet, 1000);
-        }
+        game.bullets.setAll('checkWorldBounds', true);
+        game.bullets.setAll('outOfBoundsKill', true);
     }
 
     return new Player();
