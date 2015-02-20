@@ -7,9 +7,10 @@ function(config, platform) {
 
     Environment.prototype.build = function(game)
     {
-        this.game = game;
         game.physics.startSystem(Phaser.Physics.ARCADE)
-        game.tile = game.add.tileSprite(0, 0, 5000, config.game.height,
+
+        this.game = game;
+        this.backdrop = game.add.tileSprite(0, 0, 5000, config.game.height,
             'background');
 
         platform.init(game);
@@ -26,7 +27,7 @@ function(config, platform) {
 
     Environment.prototype.move = function(direction, platforms)
     {
-        this.game.tile.x -= direction;
+        this.backdrop.x -= direction;
         platforms.move(direction);
     }
 

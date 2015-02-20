@@ -7,25 +7,38 @@ function(config) {
 
     Controls.prototype.bind = function(game, action, environment, player)
     {
+        this.game = game;
+
         this.keyBindings = [
-            wrapper(action.stop),
-            action.bindKey([Phaser.Keyboard.A], wrapper(action.goLeft)),
-            action.bindKey([Phaser.Keyboard.E, Phaser.Keyboard.W],
-                wrapper(action.goRight)),
-            action.bindKey([Phaser.Keyboard.SPACEBAR], wrapper(action.jump))
+            bindKeyDependencies(action.stop),
+            this.bindKey([Phaser.Keyboard.A],
+                bindKeyDependencies(action.goLeft)),
+            this.bindKey([Phaser.Keyboard.E, Phaser.Keyboard.W],
+                bindKeyDependencies(action.goRight)),
+            this.bindKey([Phaser.Keyboard.SPACEBAR],
+                bindKeyDependencies(action.jump))
         ];
 
         this.mouseBindings = [
-            mouseWrapper(action.shoot)
+            this.bindMouse(this.game.input.activePointer,
+                bindMouseDependencies(action.shoot))
         ];
 
-        function wrapper(func) {
-            return func.bind(null, game, environment, environment.getPlatform());
+        function bindKeyDependencies(func) {
+            return func.bind(null, {
+                game: game,
+                environment: environment,
+                platforms: environment.getPlatform(),
+                player: player
+            });
         }
 
-        function mouseWrapper(func) {
-            return func.bind(null, game, player);
+        function bindMouseDependencies(func) {
+            return func.bind(null, {
+                player: player
+            });
         }
+
     }
 
     Controls.prototype.check = function(game)
@@ -33,9 +46,39 @@ function(config) {
         this.keyBindings.forEach(function(binding) {
             binding();
         });
+
         this.mouseBindings.forEach(function(binding) {
             binding();
         });
+    }
+
+    /**
+     * Binds a key to an action.
+     */
+    Controls.prototype.bindKey = function(keys, action)
+    {
+        var bindings = [];
+
+        keys.forEach(function(key) {
+            bindings.push(this.game.input.keyboard.addKey(key));
+        }, this);
+
+        return (function() {
+            bindings.forEach(function(key) {
+                key.onDown.add(function() { action.moving = true; });
+                key.onUp.add(function() { action.moving = false; });
+                if (key.isDown) { action(); }
+            }, this);
+        }).bind(this);
+    }
+
+    Controls.prototype.bindMouse = function(pointer, action)
+    {
+        return (function() {
+            if (pointer.isDown) {
+                action();
+            }
+        }).bind(this);
     }
 
     return new Controls();

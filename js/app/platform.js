@@ -18,7 +18,6 @@ function(config) {
      */
     Platform.prototype.init = function(game)
     {
-        // TODO move to config
         this.game = game;
         this.moveDistance = config.movement.speed * 5;
         this.moveSpeed = config.movement.speed;

@@ -14,95 +14,41 @@ function(config) {
     }
 
     /**
-     * Binds a key to an action.
-     */
-    Action.prototype.bindKey = function(keys, action)
-    {
-        var bindings = [];
-
-        keys.forEach(function(key) {
-            bindings.push(this.game.input.keyboard.addKey(key));
-        }, this);
-
-        return (function() {
-            bindings.forEach(function(key) {
-                key.onDown.add(function() { Action.moving = true; });
-                key.onUp.add(function() { Action.moving = false; });
-                if (key.isDown) { action(); }
-            }, this);
-        }).bind(this);
-    }
-
-    /**
      * Makes the player go left.
      */
-    Action.prototype.goLeft = function(game, environment, platforms)
+    Action.prototype.goLeft = function(deps)
     {
         Action.direction = 'left';
-        game.player.play('run-left');
-        environment.move(config.movement.speed * -1, platforms);
+        deps.player.moveLeft();
+        deps.environment.move(config.movement.speed * -1, deps.platforms);
     }
 
     /**
      * Makes the player go right.
      */
-    Action.prototype.goRight = function(game, environment, platforms)
+    Action.prototype.goRight = function(deps)
     {
         Action.direction = 'right';
-        game.player.play('run-right');
-        environment.move(config.movement.speed, platforms);
+        deps.player.moveRight();
+        deps.environment.move(config.movement.speed, deps.platforms);
     }
 
-    Action.prototype.jump = function(game, environment)
+    Action.prototype.jump = function(deps)
     {
-        if (game.player.body.velocity.y == 0) {
-            game.player.body.velocity.y = -500;
-        }
-
-        if (Action.direction == 'right')
-        {
-            game.player.play('jump-right');
-        }
-        else if (Action.direction == 'left')
-        {
-            game.player.play('jump-left');
-        }
+        deps.player.jump(Action.direction);
     }
 
-    Action.prototype.stop = function(game, environment)
+    Action.prototype.stop = function(deps)
     {
         if (!Action.moving)
         {
-            if (Action.direction == 'right')
-            {
-                game.player.play('rest-right');
-            }
-            else if (Action.direction == 'left')
-            {
-                game.player.play('rest-left');
-            }
+            deps.player.rest(Action.direction);
         }
     }
 
-    Action.prototype.shoot = function(game, player)
+    Action.prototype.shoot = function(deps)
     {
-        if (game.input.activePointer.isDown) {
-            if (game.input.mousePointer.x >= game.player.x) {
-                game.player.play('run-right');
-                game.currentDirection = 'right';
-            } else if (game.input.mousePointer.x <= game.player.x) {
-                game.player.play('run-left');
-                game.currentDirection = 'left';
-            }
-
-            if (game.time.now > game.nextFire && game.bullets.countDead() > 0)
-            {
-                game.nextFire = game.time.now + game.fireRate;
-                var bullet = game.bullets.getFirstDead();
-                bullet.reset(game.player.x, game.player.y);
-                game.physics.arcade.moveToPointer(bullet, 1000);
-            }
-        }
+        deps.player.shoot();
     }
 
     return new Action();
