@@ -5,8 +5,19 @@ function(config) {
 
     var Player = function() 
     {
+        var instance;
+
+        Player = function() {
+            return instance;
+        }
+
+        Player.prototype = this;
+        instance = new Player();
+        instance.constructor = Player;
+
         this.player = null;
         this.bullets = null;
+        return instance;
     }
 
     Player.prototype.build = function(game)

@@ -13,6 +13,16 @@ function(config) {
         this.game = game;
     }
 
+    Action.prototype.go = function()
+    {
+        Action.moving = true;
+    }
+
+    Action.prototype.stopped = function()
+    {
+        Action.moving = false;
+    }
+
     /**
      * Makes the player go left.
      */

@@ -1,9 +1,14 @@
-define(['app/config', 'app/controls'], function(config, controls) {
+define(['app/config', 
+        'app/controls', 
+        'app/player',
+        'app/platform'], 
+function(config, controls, player, platform) {
 
     "use strict"
 
     var update = function(game) {
-        game.physics.arcade.collide(game.player, game.platforms);
+        var playerObject = player.player
+        game.physics.arcade.collide(playerObject, platform.platformGroup);
         controls.check(game);
     };
 

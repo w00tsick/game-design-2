@@ -8,6 +8,7 @@ function(config) {
     Controls.prototype.bind = function(game, action, environment, player)
     {
         this.game = game;
+        this.action = action;
 
         this.keyBindings = [
             bindKeyDependencies(action.stop),
@@ -65,8 +66,9 @@ function(config) {
 
         return (function() {
             bindings.forEach(function(key) {
-                key.onDown.add(function() { action.moving = true; });
-                key.onUp.add(function() { action.moving = false; });
+                var actionObject = this.action;
+                key.onDown.add(function() { actionObject.go(); });
+                key.onUp.add(function() { actionObject.stopped(); });
                 if (key.isDown) { action(); }
             }, this);
         }).bind(this);

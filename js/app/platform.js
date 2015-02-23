@@ -22,8 +22,10 @@ function(config) {
         this.moveDistance = config.movement.speed * 5;
         this.moveSpeed = config.movement.speed;
 
-        game.platforms = game.add.group();
-        game.platforms.enableBody = true;
+        var platforms = game.add.group();
+        platforms.enableBody = true;
+
+        this.platformGroup = platforms;
     }
 
     /**
@@ -40,7 +42,7 @@ function(config) {
         immovable = immovable || false;
         isGround = isGround || false;
 
-        var platform = this.game.platforms.create(coord.x, coord.y, imageKey);
+        var platform = this.platformGroup.create(coord.x, coord.y, imageKey);
         platform.height = size.height;
         platform.width = size.width;
         platform.body.immovable = immovable;
