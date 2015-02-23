@@ -30,6 +30,7 @@ function(config) {
     {
         Action.direction = 'left';
         deps.player.moveLeft();
+        deps.mob.moveRight();
         deps.environment.move(config.movement.speed * -1, deps.platforms);
     }
 
@@ -40,6 +41,7 @@ function(config) {
     {
         Action.direction = 'right';
         deps.player.moveRight();
+        deps.mob.moveLeft();
         deps.environment.move(config.movement.speed, deps.platforms);
     }
 
@@ -53,6 +55,7 @@ function(config) {
         if (!Action.moving)
         {
             deps.player.rest(Action.direction);
+            deps.mob.rest(Action.direction);
         }
     }
 

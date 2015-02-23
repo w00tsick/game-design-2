@@ -37,15 +37,17 @@ function(config) {
      * @param immovable bool (optional)
      */
     Platform.prototype.create = function(coord, size, imageKey, immovable,
-        isGround)
+        isGround, moves)
     {
-        immovable = immovable || false;
+        immovable = immovable || true;
         isGround = isGround || false;
+        moves = moves || false;
 
         var platform = this.platformGroup.create(coord.x, coord.y, imageKey);
         platform.height = size.height;
         platform.width = size.width;
         platform.body.immovable = immovable;
+        platform.body.moves = moves;
 
         platform.is = {
             ground: isGround

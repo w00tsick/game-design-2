@@ -26,6 +26,9 @@ function(config) {
         this.registerSprite();
         this.registerAnimations();
         this.registerBullets();
+
+        console.log(config.game.width / 2 - 40);
+        console.log(this.player.body.x);
     }
 
     Player.prototype.registerSprite = function()
@@ -45,13 +48,13 @@ function(config) {
     Player.prototype.registerAnimations = function()
     {
         this.player.animations.add('rest-right',
-            config.animations.player.restRight, 6, true);
+            config.animations.player.restRight, 4, true);
         this.player.animations.add('rest-left', 
-            config.animations.player.restLeft, 6, true);
+            config.animations.player.restLeft, 4, true);
         this.player.animations.add('run-right', 
-            config.animations.player.runRight, 6, true);
+            config.animations.player.runRight, 8, true);
         this.player.animations.add('run-left', 
-            config.animations.player.runLeft, 6, true);
+            config.animations.player.runLeft, 8, true);
         this.player.animations.add('jump-right', 
             config.animations.player.jumpRight, 2, true);
         this.player.animations.add('jump-left', 

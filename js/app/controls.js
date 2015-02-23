@@ -5,7 +5,7 @@ function(config) {
 
     var Controls = function() {}
 
-    Controls.prototype.bind = function(game, action, environment, player)
+    Controls.prototype.bind = function(game, action, environment, player, mob)
     {
         this.game = game;
         this.action = action;
@@ -14,9 +14,14 @@ function(config) {
             bindKeyDependencies(action.stop),
             this.bindKey([Phaser.Keyboard.A],
                 bindKeyDependencies(action.goLeft)),
-            this.bindKey([Phaser.Keyboard.E, Phaser.Keyboard.W],
+            this.bindKey([
+                    Phaser.Keyboard.E, 
+                    Phaser.Keyboard.D],
                 bindKeyDependencies(action.goRight)),
-            this.bindKey([Phaser.Keyboard.SPACEBAR],
+            this.bindKey([
+                    Phaser.Keyboard.SPACEBAR, 
+                    188, // binding for '<' key
+                    Phaser.Keyboard.W],
                 bindKeyDependencies(action.jump))
         ];
 
@@ -30,7 +35,8 @@ function(config) {
                 game: game,
                 environment: environment,
                 platforms: environment.getPlatform(),
-                player: player
+                player: player,
+                mob: mob
             });
         }
 
