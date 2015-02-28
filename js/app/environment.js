@@ -10,7 +10,7 @@ function(config, platform) {
         game.physics.startSystem(Phaser.Physics.ARCADE)
 
         this.game = game;
-        this.backdrop = game.add.tileSprite(0, 0, 5000, config.game.height,
+        this.backdrop = game.add.tileSprite(-3000, 0, 5000, config.game.height,
             'background');
 
         platform.init(game);
@@ -32,6 +32,20 @@ function(config, platform) {
         platform.create(
             { x: config.platform.bare.x,
               y: config.platform.bare.y },
+            { height: config.platform.bare.height,
+              width: config.platform.bare.width},
+            'ground');
+
+        platform.create(
+            { x: config.platform.bare.x - 600,
+              y: config.platform.bare.y - 50},
+            { height: config.platform.bare.height,
+              width: config.platform.bare.width},
+            'ground');
+
+        platform.create(
+            { x: config.platform.bare.x - 1300,
+              y: config.platform.bare.y + 50},
             { height: config.platform.bare.height,
               width: config.platform.bare.width},
             'ground');

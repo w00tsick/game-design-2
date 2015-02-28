@@ -3,26 +3,23 @@ function(config) {
 
     "use strict";
 
-    var Mob = function() {}
-
-    Mob.prototype.build = function(game)
+    var Mob = function(game, spawnpoint)
     {
         this.game = game;
-        this.registerSprite();
+        this.registerSprite(game, spawnpoint);
         this.registerAnimations();
         this.registerBullets();
     }
 
-    Mob.prototype.registerSprite = function()
+    Mob.prototype.registerSprite = function(game, spawnpoint)
     {
-        var mob = this.game.add.sprite(config.game.width / 2 - 40, 0, 'mob');
-        this.game.physics.arcade.enable(mob);
+        var mob = game.add.sprite(spawnpoint, 0, 'mob');
+        game.physics.arcade.enable(mob);
         mob.frame = 11;
         mob.width = 100;
         mob.height = 100;
         mob.body.bounce.y = 0;
         mob.body.gravity.y = 1000;
-        mob.body.collideWorldBounds = true;
 
         this.mob = mob;
     }
@@ -72,16 +69,6 @@ function(config) {
     Mob.prototype.rest = function(facing)
     {
         this.mob.body.velocity.x = 0;
-        /*
-        switch (facing) {
-            case "left":
-                this.mob.play('rest-left');
-                break;
-            case "right":
-                this.mob.play('rest-right');
-                break;
-        }
-    */
     }
 
     Mob.prototype.jump = function(facing)
@@ -118,8 +105,6 @@ function(config) {
         }
     }
 
-
-
-    return new Mob();
+    return Mob;
 
 });
