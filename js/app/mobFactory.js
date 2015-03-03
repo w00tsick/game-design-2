@@ -11,7 +11,7 @@ function(config, Mob) {
             for (var i = 0; i < mobs; i++)
             {
                 // TODO add positioning options
-                MobFactory.mobs.push(new Mob(game, 100 - i * 40));
+                MobFactory.mobs.push(new Mob(game, (i + 1) * 200));
             }
 
             return MobFactory.mobs;

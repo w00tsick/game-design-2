@@ -12,7 +12,7 @@ function(config, environment, player, mobFactory, action, controls) {
         environment.build(game);
         player.build(game);
         action.init(game);
-        var mobs = mobFactory.build(game, 204);
+        var mobs = mobFactory.build(game, 2);
         controls.bind(game, action, environment, player, mobs);
     };
 

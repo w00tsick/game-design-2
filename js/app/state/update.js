@@ -14,12 +14,14 @@ function(config, controls, player, mobFactory, platform) {
         game.physics.arcade.collide(playerObject, platform.platformGroup);
 
         mobObjects.forEach(function(obj) {
+            obj.mob.healthGraphic.x = obj.mob.body.x + 30;
+            obj.mob.healthGraphic.y = obj.mob.body.y;
             game.physics.arcade.collide(obj.mob, platform.platformGroup);
             game.physics.arcade.overlap(player.bullets, obj.mob,
                 // TODO for some reason these are backwards ?
                 function(bullet, mob) {
-                    mob.kill(); // kills the bullet
-                    bullet.kill(); // kills the mob
+                    mob.kill();
+                    obj.hurt(10);
                 }
             );
             game.physics.arcade.overlap(obj.mob, player.player,

@@ -21,7 +21,27 @@ function(config) {
         mob.body.bounce.y = 0;
         mob.body.gravity.y = 1000;
 
+        mob.healthGraphic = game.add.graphics(0, 0);
+        mob.healthGraphic.beginFill(0xff0000)
+        mob.healthGraphic.drawRect(0, 10, 40, 7);
+
+        console.log(mob.healthGraphic.width);
+        mob.totalHitPoints = 100;
+        mob.currentHitPoints = 100;
+
         this.mob = mob;
+    }
+
+    Mob.prototype.hurt = function(amount)
+    {
+        var healthBarWidth = 40;
+        var percent = 1 - (this.mob.totalHitPoints - amount) / this.mob.totalHitPoints;
+        this.mob.healthGraphic.width -= healthBarWidth * percent;
+        this.mob.currentHitPoints -= amount;
+        if (this.mob.currentHitPoints < 1) {
+            this.mob.kill();
+            this.mob.healthGraphic.destroy();
+        }
     }
 
     Mob.prototype.registerAnimations = function()
