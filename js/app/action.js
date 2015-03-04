@@ -36,7 +36,7 @@ function(config) {
         }
         else
         {
-            deps.player.moveLeft();
+           deps.player.moveLeft();
         }
     }
 

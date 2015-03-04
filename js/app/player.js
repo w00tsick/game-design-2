@@ -22,11 +22,12 @@ function(config) {
 
     Player.prototype.build = function(game)
     {
+	Player.game
         this.game = game;
         this.registerSprite();
         this.registerAnimations();
-        this.registerBullets();
-
+	this.registerBullets();
+	this.jumping = false;
         console.log(config.game.width / 2 - 40);
         console.log(this.player.body.x);
     }
@@ -76,15 +77,25 @@ function(config) {
 
         this.bullets = bullets;
     }
-
+    
+    Player.prototype.setJumping = function(x){
+	Player.jumping = x
+    }
+    
     Player.prototype.playMoveLeft = function()
     {
-        this.player.play('run-left');
+	if(!Player.jumping)
+            this.player.play('run-left');
+	else
+	    this.player.play('jump-left');
     }
 
     Player.prototype.playMoveRight = function()
     {
-        this.player.play('run-right');
+	if(!Player.jumping)
+            this.player.play('run-right');
+	else
+	    this.player.play('jump-right')
     }
 
     Player.prototype.moveLeft = function()
@@ -99,7 +110,8 @@ function(config) {
 
     Player.prototype.rest = function(facing)
     {
-        switch (facing) {
+	if(!Player.jumping)
+            switch (facing) {
             case "left":
                 this.player.play('rest-left');
                 break;
@@ -111,18 +123,18 @@ function(config) {
 
     Player.prototype.jump = function(facing)
     {
-        if (this.player.body.velocity.y == 0) {
+        if (!Player.jumping) {
             this.player.body.velocity.y = -500;
+	    Player.jumping = true;
         }
-
-        switch (facing) {
+	switch (facing) {
             case "left":
                 this.player.play('jump-left');
                 break;
             case "right":
                 this.player.play('jump-right');
-                break;
-        }
+                break;   
+        }	
     }
 
     Player.prototype.shoot = function()
