@@ -29,11 +29,18 @@ function(config) {
     Action.prototype.goLeft = function(deps)
     {
         Action.direction = 'left';
-        deps.player.moveLeft();
-        deps.mob.forEach(function(one) {
-            one.moveRight();
-        });
-        deps.environment.move(config.movement.speed * -1, deps.platforms);
+        deps.player.playMoveLeft();
+        if (deps.environment.worldMoving)
+        {
+            deps.mob.forEach(function(one) {
+                one.moveRight();
+            });
+            deps.environment.move(config.movement.speed * -1, deps.platforms);
+        }
+        else
+        {
+            deps.player.moveLeft();
+        }
     }
 
     /**
@@ -42,11 +49,18 @@ function(config) {
     Action.prototype.goRight = function(deps)
     {
         Action.direction = 'right';
-        deps.player.moveRight();
-        deps.mob.forEach(function(one) {
-            one.moveLeft();
-        });
-        deps.environment.move(config.movement.speed, deps.platforms);
+        deps.player.playMoveRight();
+        if (deps.environment.worldMoving)
+        {
+            deps.mob.forEach(function(one) {
+                one.moveLeft();
+            });
+            deps.environment.move(config.movement.speed, deps.platforms);
+        }
+        else
+        {
+            deps.player.moveRight();
+        }
     }
 
     Action.prototype.jump = function(deps)

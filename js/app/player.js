@@ -77,14 +77,24 @@ function(config) {
         this.bullets = bullets;
     }
 
-    Player.prototype.moveLeft = function()
+    Player.prototype.playMoveLeft = function()
     {
         this.player.play('run-left');
     }
 
-    Player.prototype.moveRight = function()
+    Player.prototype.playMoveRight = function()
     {
         this.player.play('run-right');
+    }
+
+    Player.prototype.moveLeft = function()
+    {
+        this.player.body.x -= config.movement.speed / 2;
+    }
+
+    Player.prototype.moveRight = function()
+    {
+        this.player.body.x += config.movement.speed / 2;
     }
 
     Player.prototype.rest = function(facing)

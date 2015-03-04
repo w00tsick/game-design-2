@@ -5,6 +5,7 @@ function(config, platform) {
 
     var Environment = function() {}
 
+
     Environment.prototype.build = function(game)
     {
         game.physics.startSystem(Phaser.Physics.ARCADE)
@@ -12,6 +13,7 @@ function(config, platform) {
         this.game = game;
         this.backdrop = game.add.tileSprite(-3000, 0, 5000, config.game.height,
             'background');
+        this.worldMoving = true;
 
         platform.init(game);
 
@@ -62,6 +64,11 @@ function(config, platform) {
         this.backdrop.x -= (direction / (direction - (direction / 2)))
                          * (direction / Math.abs(direction))
         platforms.move(direction);
+    }
+
+    Environment.prototype.stopWorld = function()
+    {
+        this.worldMoving = false;
     }
 
     return new Environment();

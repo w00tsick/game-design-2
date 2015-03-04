@@ -1,9 +1,10 @@
 define(['app/config', 
         'app/controls', 
         'app/player',
+        'app/environment',
         'app/mobFactory',
         'app/platform'], 
-function(config, controls, player, mobFactory, platform) {
+function(config, controls, player, environment, mobFactory, platform) {
 
     "use strict"
 
@@ -36,6 +37,13 @@ function(config, controls, player, mobFactory, platform) {
                 bullet.kill();
             }
         );
+
+        config.game.spawnpoints.forEach(function(spawnpoint) {
+            if (Math.abs(environment.backdrop.x) < spawnpoint)
+            {
+                environment.stopWorld();
+            }
+        });
 
         controls.check(game);
     };
