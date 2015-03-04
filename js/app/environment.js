@@ -57,7 +57,7 @@ function(config, platform) {
         return platform;
     }
 
-    Environment.prototype.move = function(direction, platforms)
+    Environment.prototype.move = function(direction, platforms, amount)
     {
         this.backdrop.x -= (direction / (direction - (direction / 2)))
                          * (direction / Math.abs(direction))
@@ -67,6 +67,22 @@ function(config, platform) {
     Environment.prototype.stopWorld = function()
     {
         this.worldMoving = false;
+    }
+
+    Environment.prototype.startWorld = function(player, environment, platforms)
+    {
+        var game = this.game;
+        game.add.tween(player)
+            .to({x: config.game.width / 2}, 500)
+            .start();
+        platforms.platformGroup.forEach(function(platform) {
+            if (!platform.is.ground) {
+                game.add.tween(platform)
+                .to({x: platform.body.x + (config.game.width / 2) - player.body.x }, 500)
+                .start();
+            }
+        });
+        this.worldMoving = true;
     }
 
     return new Environment();

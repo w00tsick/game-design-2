@@ -5,7 +5,7 @@ function(config) {
 
     var Controls = function() {}
 
-    Controls.prototype.bind = function(game, action, environment, player, mob)
+    Controls.prototype.bind = function(game, action, environment, player)
     {
         this.game = game;
         this.action = action;
@@ -35,8 +35,7 @@ function(config) {
                 game: game,
                 environment: environment,
                 platforms: environment.getPlatform(),
-                player: player,
-                mob: mob
+                player: player
             });
         }
 

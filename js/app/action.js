@@ -32,9 +32,6 @@ function(config) {
         deps.player.playMoveLeft();
         if (deps.environment.worldMoving)
         {
-            deps.mob.forEach(function(one) {
-                one.moveRight();
-            });
             deps.environment.move(config.movement.speed * -1, deps.platforms);
         }
         else
@@ -52,9 +49,6 @@ function(config) {
         deps.player.playMoveRight();
         if (deps.environment.worldMoving)
         {
-            deps.mob.forEach(function(one) {
-                one.moveLeft();
-            });
             deps.environment.move(config.movement.speed, deps.platforms);
         }
         else
@@ -73,9 +67,6 @@ function(config) {
         if (!Action.moving)
         {
             deps.player.rest(Action.direction);
-            deps.mob.forEach(function(one) {
-                one.rest(Action.direction);
-            });
         }
     }
 

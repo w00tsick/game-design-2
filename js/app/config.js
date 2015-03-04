@@ -6,7 +6,7 @@ define(function() {
         game: {
             width: window.innerWidth,
             height: window.innerHeight,
-            spawnpoints: [2500]
+            spawnpoints: [2500, 2000]
         },
         movement: {
             speed: 9 

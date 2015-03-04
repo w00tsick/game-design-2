@@ -25,7 +25,6 @@ function(config) {
         mob.healthGraphic.beginFill(0xff0000)
         mob.healthGraphic.drawRect(0, 10, 40, 7);
 
-        console.log(mob.healthGraphic.width);
         mob.totalHitPoints = 100;
         mob.currentHitPoints = 100;
 
@@ -35,8 +34,7 @@ function(config) {
     Mob.prototype.hurt = function(amount)
     {
         var healthBarWidth = 40;
-        var percent = 1 - (this.mob.totalHitPoints - amount) / this.mob.totalHitPoints;
-        this.mob.healthGraphic.width -= healthBarWidth * percent;
+        this.mob.healthGraphic.width -= amount * .01;
         this.mob.currentHitPoints -= amount;
         if (this.mob.currentHitPoints < 1) {
             this.mob.kill();

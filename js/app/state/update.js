@@ -11,7 +11,7 @@ function(config, controls, player, environment, mobFactory, platform) {
     var update = function(game) {
         var playerObject = player.player;
         var bullets = player.bullets;
-        var mobObjects = mobFactory.getMobs();
+        var mobObjects = mobFactory.getAliveMobs();
         game.physics.arcade.collide(playerObject, platform.platformGroup);
 
         mobObjects.forEach(function(obj) {
@@ -22,7 +22,7 @@ function(config, controls, player, environment, mobFactory, platform) {
                 // TODO for some reason these are backwards ?
                 function(bullet, mob) {
                     mob.kill();
-                    obj.hurt(10);
+                    obj.hurt(50);
                 }
             );
             game.physics.arcade.overlap(obj.mob, player.player,
@@ -41,7 +41,20 @@ function(config, controls, player, environment, mobFactory, platform) {
         config.game.spawnpoints.forEach(function(spawnpoint) {
             if (Math.abs(environment.backdrop.x) < spawnpoint)
             {
-                environment.stopWorld();
+                if (mobFactory.canspawn)
+                {
+                    var mobs = mobFactory.build(game, 5);
+                    mobFactory.canspawn = false;
+                    environment.stopWorld();
+                }
+                else if (mobFactory.getAliveMobs().length == 0
+                         && playerObject.body.x < config.game.width / 2)
+                {
+                    config.game.spawnpoints.shift();
+                    mobFactory.canspawn = true;
+                    environment.startWorld(playerObject, environment,
+                        platform);
+                }
             }
         });
 

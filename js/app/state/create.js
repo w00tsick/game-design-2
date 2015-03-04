@@ -2,11 +2,9 @@ define(['app/config',
         'app/environment',
         'app/HUD',
         'app/player', 
-        'app/mobFactory',
         'app/action', 
         'app/controls'], 
-
-function(config, environment, HUD, player, mobFactory, action, controls) {
+function(config, environment, HUD, player, action, controls) {
     "use strict"
 
     var create = function(game) {
@@ -14,8 +12,7 @@ function(config, environment, HUD, player, mobFactory, action, controls) {
         HUD.build(game);
         player.build(game);
         action.init(game);
-        var mobs = mobFactory.build(game, 2);
-        controls.bind(game, action, environment, player, mobs);
+        controls.bind(game, action, environment, player);
     };
 
     return create;
