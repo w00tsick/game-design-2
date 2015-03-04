@@ -22,7 +22,7 @@ function(config) {
         mob.body.gravity.y = 1000;
 
         mob.healthGraphic = game.add.graphics(0, 0);
-        mob.healthGraphic.beginFill(0xff0000)
+        mob.healthGraphic.beginFill(0xff0000);
         mob.healthGraphic.drawRect(0, 10, 40, 7);
 
         console.log(mob.healthGraphic.width);

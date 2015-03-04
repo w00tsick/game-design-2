@@ -45,6 +45,18 @@ function(config) {
         this.player = player;
     }
 
+    Player.prototype.hurt = function(amount)
+    {
+        var healthBarWidth = 40;
+        var percent = 1 - (this.player.totalHitPoints - amount) / this.player.totalHitPoints;
+        this.player.healthGraphic.width -= healthBarWidth * percent;
+        this.player.currentHitPoints -= amount;
+        if (this.player.currentHitPoints < 1) {
+            this.player.kill();
+            this.player.healthGraphic.destroy();
+        }
+    }
+
     Player.prototype.registerAnimations = function()
     {
         this.player.animations.add('rest-right',

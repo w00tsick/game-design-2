@@ -4,12 +4,8 @@ function(config, platform) {
     "use strict";
 
     var Environment = function() {}
-<<<<<<< HEAD
-    
-=======
 
 
->>>>>>> d968201b6c814483970fe2be0ff38a78be0e2d51
     Environment.prototype.build = function(game)
     {
         game.physics.startSystem(Phaser.Physics.ARCADE)
