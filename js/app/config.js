@@ -5,7 +5,8 @@ define(function() {
     var config = {
         game: {
             width: window.innerWidth,
-            height: window.innerHeight
+            height: window.innerHeight,
+            spawnpoints: [2500]
         },
         movement: {
             speed: 9 

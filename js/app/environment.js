@@ -4,14 +4,20 @@ function(config, platform) {
     "use strict";
 
     var Environment = function() {}
+<<<<<<< HEAD
     
+=======
+
+
+>>>>>>> d968201b6c814483970fe2be0ff38a78be0e2d51
     Environment.prototype.build = function(game)
     {
         game.physics.startSystem(Phaser.Physics.ARCADE)
 
         this.game = game;
-        this.backdrop = game.add.tileSprite(0, 0, 5000, config.game.height,
+        this.backdrop = game.add.tileSprite(-3000, 0, 5000, config.game.height,
             'background');
+        this.worldMoving = true;
 
         platform.init(game);
 
@@ -36,6 +42,20 @@ function(config, platform) {
               width: config.platform.bare.width},
             'ground');
 
+        platform.create(
+            { x: config.platform.bare.x - 600,
+              y: config.platform.bare.y - 50},
+            { height: config.platform.bare.height,
+              width: config.platform.bare.width},
+            'ground');
+
+        platform.create(
+            { x: config.platform.bare.x - 1300,
+              y: config.platform.bare.y + 50},
+            { height: config.platform.bare.height,
+              width: config.platform.bare.width},
+            'ground');
+
     }
 
     Environment.prototype.getPlatform = function()
@@ -48,6 +68,11 @@ function(config, platform) {
         this.backdrop.x -= (direction / (direction - (direction / 2)))
                          * (direction / Math.abs(direction))
         platforms.move(direction);
+    }
+
+    Environment.prototype.stopWorld = function()
+    {
+        this.worldMoving = false;
     }
 
     return new Environment();

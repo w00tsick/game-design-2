@@ -3,28 +3,45 @@ function(config) {
 
     "use strict";
 
-    var Mob = function() {}
-
-    Mob.prototype.build = function(game)
+    var Mob = function(game, spawnpoint)
     {
         this.game = game;
-        this.registerSprite();
+        this.registerSprite(game, spawnpoint);
         this.registerAnimations();
         this.registerBullets();
     }
 
-    Mob.prototype.registerSprite = function()
+    Mob.prototype.registerSprite = function(game, spawnpoint)
     {
-        var mob = this.game.add.sprite(config.game.width / 2 - 40, 0, 'mob');
-        this.game.physics.arcade.enable(mob);
+        var mob = game.add.sprite(spawnpoint, 0, 'mob');
+        game.physics.arcade.enable(mob);
         mob.frame = 11;
         mob.width = 100;
         mob.height = 100;
         mob.body.bounce.y = 0;
         mob.body.gravity.y = 1000;
-        mob.body.collideWorldBounds = true;
+
+        mob.healthGraphic = game.add.graphics(0, 0);
+        mob.healthGraphic.beginFill(0xff0000)
+        mob.healthGraphic.drawRect(0, 10, 40, 7);
+
+        console.log(mob.healthGraphic.width);
+        mob.totalHitPoints = 100;
+        mob.currentHitPoints = 100;
 
         this.mob = mob;
+    }
+
+    Mob.prototype.hurt = function(amount)
+    {
+        var healthBarWidth = 40;
+        var percent = 1 - (this.mob.totalHitPoints - amount) / this.mob.totalHitPoints;
+        this.mob.healthGraphic.width -= healthBarWidth * percent;
+        this.mob.currentHitPoints -= amount;
+        if (this.mob.currentHitPoints < 1) {
+            this.mob.kill();
+            this.mob.healthGraphic.destroy();
+        }
     }
 
     Mob.prototype.registerAnimations = function()
@@ -72,16 +89,6 @@ function(config) {
     Mob.prototype.rest = function(facing)
     {
         this.mob.body.velocity.x = 0;
-        /*
-        switch (facing) {
-            case "left":
-                this.mob.play('rest-left');
-                break;
-            case "right":
-                this.mob.play('rest-right');
-                break;
-        }
-    */
     }
 
     Mob.prototype.jump = function(facing)
@@ -118,8 +125,6 @@ function(config) {
         }
     }
 
-
-
-    return new Mob();
+    return Mob;
 
 });
