@@ -5,12 +5,8 @@ define(['app/config',
         'app/mobFactory',
         'app/action', 
         'app/controls'], 
-<<<<<<< HEAD
-function(config, environment, HUD, player, mob, action, controls) {
-=======
-function(config, environment, player, mobFactory, action, controls) {
->>>>>>> d968201b6c814483970fe2be0ff38a78be0e2d51
 
+function(config, environment, HUD, player, mobFactory, action, controls) {
     "use strict"
 
     var create = function(game) {
