@@ -7,13 +7,22 @@ define(['app/config',
 function(config, controls, player, environment, mobFactory, platform) {
 
     "use strict"
+    var count = 0;
 
     var update = function(game) {
         var playerObject = player.player;
         var bullets = player.bullets;
         var mobObjects = mobFactory.getAliveMobs();
+	// Jump cheking
+	if(playerObject.body.velocity.y >= 0 && playerObject.body.velocity.y <= 20){
+	    count += 1;
+	    if(count > 10)
+		player.setJumping(false);
+	}else{
+	    player.setJumping(true);
+	    count = 0;
+	}
         game.physics.arcade.collide(playerObject, platform.platformGroup);
-
         mobObjects.forEach(function(obj) {
             obj.mob.healthGraphic.x = obj.mob.body.x + 30;
             obj.mob.healthGraphic.y = obj.mob.body.y;

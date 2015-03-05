@@ -19,7 +19,6 @@ function(phaser, config, preload, update, create) {
             create: create
         },
         true);
-
     return Game;
 
 });
