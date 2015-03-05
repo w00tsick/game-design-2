@@ -16,10 +16,17 @@ define(function() {
             player: {
                 restRight: [1],
                 restLeft: [0],
+
                 runRight: [2, 4, 6],
                 runLeft: [3, 5, 7],
                 jumpRight: [8, 9],
                 jumpLeft: [7, 10]
+
+                runRight: [2],
+                runLeft: [3],
+                jumpRight: [30, 31],
+                jumpLeft: [32, 33]
+
             },
 
             mob: {
