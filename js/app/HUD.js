@@ -2,17 +2,16 @@ define(['app/config'],
 function(config) {
 
     "use strict";
-
+    var healthbar;
+    var button;
+    var mask;
     var HUD = function() {}
     HUD.prototype.build = function(game)
     {
-        var mask;
+
         //gradient health bar sprite
-        var sprite = game.add.sprite(-1800, 0, 'health');
-        //tween to imitate the color of the health bar to change
-        var tween = game.add.tween(sprite);
-        tween.to({ x: 200 }, 6000);
-        tween.start();
+        healthbar = game.add.sprite(-2800, 0, 'health');
+        game.add.tween(healthbar).to({x: '+1000'}, 1000, Phaser.Easing.Bounce.Out, true, 0, 0, false);
         //add mask to sprite such that only the area we want seen is
         mask = game.add.graphics(0, 0);
         //	Shapes drawn to the Graphics object must be filled.
@@ -20,11 +19,16 @@ function(config) {
         //	Here we'll draw a Rectangle
         mask.drawRect(200, 0 ,1000, 20);
          //	And apply it to the Sprite
-        sprite.mask = mask;
-        
+        healthbar.mask = mask;
+        //Rectangle(x,y,width,height)    
+        button = game.add.button(100, 600, 'player', actionOnClick, game, 2,1,0);
         var text = "health: ";
         var style = { font: "20px Arial", fill: "#ff0000"};
         var t = game.add.text(100, 0, text, style);
+        function actionOnClick(){
+
+            game.add.tween(healthbar).to({x: '-100'}, 100, Phaser.Easing.Bounce.Out, true, 0, 0, false);
+        }
     }
     return new HUD();
 
