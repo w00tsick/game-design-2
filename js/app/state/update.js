@@ -40,6 +40,29 @@ function(config, controls, player, HUD, environment, mobFactory, platform) {
                     console.log('test');
                 }
             );
+	    /* Mobs shooting
+	    *  Is he able to shoot
+	    */
+	    obj.faceCheck(player);
+	    var ray = new Phaser.Line(obj.mob.body.x, obj.mob.body.y,playerObject.body.x, playerObject.body.y)
+	    if(!platform.getIntersection(ray,game))
+		obj.shoot(playerObject.body.x, playerObject.body.y)
+	    else
+		obj.rest();
+	    var mobBullets = obj.bullets;
+	    game.physics.arcade.collide(mobBullets, platform.platformGroup,
+		function(bullet, platform) {
+                bullet.kill();
+                }
+	    );
+	    
+	    game.physics.arcade.overlap(mobBullets, playerObject,
+		// backwars either
+		function(bullet, player) {
+                    player.kill();
+		    HUD.hurt(40);
+                }
+	    );
         });
 
         game.physics.arcade.collide(bullets, platform.platformGroup,
