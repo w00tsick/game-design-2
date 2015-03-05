@@ -1,10 +1,11 @@
 define(['app/config', 
         'app/controls', 
         'app/player',
+        'app/HUD',
         'app/environment',
         'app/mobFactory',
         'app/platform'], 
-function(config, controls, player, environment, mobFactory, platform) {
+function(config, controls, player, HUD, environment, mobFactory, platform) {
 
     "use strict"
 
@@ -47,7 +48,6 @@ function(config, controls, player, environment, mobFactory, platform) {
 
         controls.check(game);
     };
-
     return update;
 
 });
