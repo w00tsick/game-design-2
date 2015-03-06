@@ -1,29 +1,19 @@
 define(['app/config', 
         'app/controls', 
         'app/player',
-	'app/HUD',
         'app/environment',
         'app/mobFactory',
         'app/platform'], 
-function(config, controls, player, HUD, environment, mobFactory, platform) {
+function(config, controls, player, environment, mobFactory, platform) {
 
     "use strict"
-    var count = 0;
 
     var update = function(game) {
         var playerObject = player.player;
         var bullets = player.bullets;
-        var mobObjects = mobFactory.getAliveMobs();
-	// Jump cheking
-	if(playerObject.body.velocity.y >= 0 && playerObject.body.velocity.y <= 20){
-	    count += 1;
-	    if(count > 10)
-		player.setJumping(false);
-	}else{
-	    player.setJumping(true);
-	    count = 0;
-	}
+        var mobObjects = mobFactory.getMobs();
         game.physics.arcade.collide(playerObject, platform.platformGroup);
+
         mobObjects.forEach(function(obj) {
             obj.mob.healthGraphic.x = obj.mob.body.x + 30;
             obj.mob.healthGraphic.y = obj.mob.body.y;
@@ -32,7 +22,7 @@ function(config, controls, player, HUD, environment, mobFactory, platform) {
                 // TODO for some reason these are backwards ?
                 function(bullet, mob) {
                     mob.kill();
-                    obj.hurt(50);
+                    obj.hurt(10);
                 }
             );
             game.physics.arcade.overlap(obj.mob, player.player,
@@ -51,25 +41,13 @@ function(config, controls, player, HUD, environment, mobFactory, platform) {
         config.game.spawnpoints.forEach(function(spawnpoint) {
             if (Math.abs(environment.backdrop.x) < spawnpoint)
             {
-                if (mobFactory.canspawn)
-                {
-                    var mobs = mobFactory.build(game, 5);
-                    mobFactory.canspawn = false;
-                    environment.stopWorld();
-                }
-                else if (mobFactory.getAliveMobs().length == 0
-                         && playerObject.body.x < config.game.width / 2)
-                {
-                    config.game.spawnpoints.shift();
-                    mobFactory.canspawn = true;
-                    environment.startWorld(playerObject, environment,
-                        platform);
-                }
+                environment.stopWorld();
             }
         });
 
         controls.check(game);
     };
+
     return update;
 
 });

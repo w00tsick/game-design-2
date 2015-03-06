@@ -10,6 +10,9 @@ function(config) {
         preload: function() {
             this.game.load.image('logo', 'assets/images/logo_crop_500.png');
             this.game.load.script('filter', 'https://cdn.rawgit.com/photonstorm/phaser/master/filters/Fire.js');
+            this.game.load.image('button1', 'assets/images/hotkey1.png');
+            this.game.load.image('button2', 'assets/images/Hotkey2.png');
+            this.game.load.image('button3', 'assets/images/Hotkey3.png');
         },
         create: function() {
             this.game.add.sprite(config.game.width / 2 - 500 / 2,
