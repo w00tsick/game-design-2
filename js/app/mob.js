@@ -9,7 +9,7 @@ function(config) {
         this.registerSprite(game, spawnpoint);
         this.registerAnimations();
         this.registerBullets();
-	this.facing = "right"
+        this.facing = "right"
     }
 
     Mob.prototype.registerSprite = function(game, spawnpoint)
@@ -88,14 +88,14 @@ function(config) {
     Mob.prototype.rest = function()
     {
         this.mob.body.velocity.x = 0;
-	switch (this.facing) {
+        switch (this.facing) {
         case "left":
             this.mob.play('rest-left');
             break;
         case "right":
             this.mob.play('rest-right');
             break;
-	}
+        }
     }
 
     Mob.prototype.jump = function(facing)
@@ -105,18 +105,18 @@ function(config) {
         }
 
         switch (facing) {
-            case "left":
-                this.mob.play('jump-left');
-                break;
-            case "right":
-                this.mob.play('jump-right');
-                break;
+        case "left":
+            this.mob.play('jump-left');
+            break;
+        case "right":
+            this.mob.play('jump-right');
+            break;
         }
     }
 
     Mob.prototype.faceCheck = function(player)
     {
-	if (player.player.body.x >= this.mob.x) {
+        if (player.player.body.x >= this.mob.x) {
             this.facing = "right";
         } else if (player.player.body.x <= this.mob.x) {
             this.facing = "left";
@@ -126,23 +126,23 @@ function(config) {
 
     Mob.prototype.shoot = function(x,y)
     {
-	switch (this.facing) {
-            case "left":
-                this.mob.play('run-left');
-                break;
-            case "right":
-                this.mob.play('run-right');
-                break;
-	}
+        switch (this.facing) {
+        case "left":
+            this.mob.play('run-left');
+            break;
+        case "right":
+            this.mob.play('run-right');
+            break;
+        }
         if (this.game.time.now > this.nextFire
             && this.bullets.countDead() > 0)
         {
             this.nextFire = this.game.time.now + this.fireRate;
             var bullet = this.bullets.getFirstDead();
             bullet.reset(this.mob.x, this.mob.y);
-	    this.game.physics.arcade.moveToXY(bullet,x,y,500);
+            this.game.physics.arcade.moveToXY(bullet,x,y,500);
         }
     }
-    
+
     return Mob;
 });

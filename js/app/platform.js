@@ -89,39 +89,40 @@ function(config) {
             if (!platform.is.ground)
             {
                 game.add.tween(platform)
-                    .to({x: platform.x - distance}, speed)
-                    .start();
+                .to({x: platform.x - distance}, speed)
+                .start();
             }
         });
     }
     /*
-      Check if the platform is being hited by ray
-      of vision from player
-    */
+     Check if the platform is being hited by ray
+     of vision from player
+     */
     Platform.prototype.getIntersection = function(ray)
     {
-	var status = false;
-	this.platformGroup.forEach(function(plat) {
-	    // Creating lines for ray intersection
-	    var lines = [
-            new Phaser.Line(plat.x, plat.y, plat.x + plat.width, plat.y),
-            new Phaser.Line(plat.x, plat.y, plat.x, plat.y + plat.height),
-            new Phaser.Line(plat.x + plat.width, plat.y, plat.x + plat.width, plat.y + plat.height),
-            new Phaser.Line(plat.x, plat.y + plat.height, plat.x + plat.width, plat.y + plat.height)
+        var status = false;
+        this.platformGroup.forEach(function(plat) {
+            // Creating lines for ray intersection
+            var lines = [
+                new Phaser.Line(plat.x, plat.y, plat.x + plat.width, plat.y),
+                new Phaser.Line(plat.x, plat.y, plat.x, plat.y + plat.height),
+                new Phaser.Line(plat.x + plat.width, plat.y, plat.x + plat.width, plat.y + plat.height),
+                new Phaser.Line(plat.x, plat.y + plat.height, plat.x + plat.width, plat.y + plat.height)
             ];
-	    lines.forEach(function(line) {
-		//game.debug.geom(line);
-		//game.debug.geom(ray);
-		var intersect = Phaser.Line.intersects(ray, line);
-		if(intersect){
-		    status = true;
-		    return;
-		}
-	    });
-	    if(status)
-		return;
-	});
-	return status;
+
+            lines.forEach(function(line) {
+                //game.debug.geom(line);
+                //game.debug.geom(ray);
+                var intersect = Phaser.Line.intersects(ray, line);
+                if(intersect){
+                    status = true;
+                    return;
+                }
+            });
+            if(status)
+                return;
+        });
+        return status;
     }
 
     /**

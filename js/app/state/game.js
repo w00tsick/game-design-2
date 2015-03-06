@@ -109,13 +109,13 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
                         environment.stopWorld();
                     }
                     else if (mobFactory.getAliveMobs().length == 0
-                    && playerObject.body.x < config.game.width / 2)
-                {
-                    config.game.spawnpoints.shift();
-                    mobFactory.canspawn = true;
-                    environment.startWorld(playerObject, environment,
-                        platform);
-                }
+                        && playerObject.body.x < config.game.width / 2)
+                    {
+                        config.game.spawnpoints.shift();
+                        mobFactory.canspawn = true;
+                        environment.startWorld(playerObject, environment,
+                            platform);
+                    }
                 }
             });
 
