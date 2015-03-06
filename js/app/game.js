@@ -1,10 +1,9 @@
 define([
     'vendor/phaser', 
     'app/config',
-    'app/state/preload', 
-    'app/state/update', 
-    'app/state/create'],
-function(phaser, config, preload, update, create) {
+    'app/state/menu',
+    'app/state/game'],
+function(phaser, config, menu, game) {
 
     "use strict";
 
@@ -13,12 +12,12 @@ function(phaser, config, preload, update, create) {
         config.game.height, 
         Phaser.AUTO, 
         'game',
-        {
-            preload: preload,
-            update: update,
-            create: create
-        },
         true);
+
+    Game.state.add("menu", menu);
+    Game.state.add("game", game);
+    Game.state.start("menu");
+
     return Game;
 
 });
