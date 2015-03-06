@@ -15,7 +15,8 @@ function(config) {
             this.bindKey([Phaser.Keyboard.A],
                 bindKeyDependencies(action.goLeft)),
             this.bindKey([
-                    Phaser.Keyboard.E, 
+                    //interferred with hotkeys
+                    //Phaser.Keyboard.E, 
                     Phaser.Keyboard.D],
                 bindKeyDependencies(action.goRight)),
             this.bindKey([
