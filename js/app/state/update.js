@@ -1,7 +1,7 @@
 define(['app/config', 
         'app/controls', 
         'app/player',
-        'app/HUD',
+	'app/HUD',
         'app/environment',
         'app/mobFactory',
         'app/platform'], 
