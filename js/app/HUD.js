@@ -17,6 +17,7 @@ function(config) {
         game.add.sprite(100, (config.game.height - 100), 'button1');
         game.add.sprite(200, (config.game.height - 100), 'button2');
         game.add.sprite(300, (config.game.height - 100), 'button3');
+        game.add.sprite(3, -4, 'healthUI');
         //The following hotkeys may not need to be in HUD.js
         //I'm simply keeping them here while I work out functionality
         //  Here we create 3 hotkeys, keys Q,E,R and bind them all to their own functions
@@ -31,20 +32,16 @@ function(config) {
         key3.onDown.add(finalAbility, this);
         this.game = game;
         //gradient health bar sprite
-        healthbar = game.add.sprite(-2800, 0, 'health');
+        healthbar = game.add.sprite(-2800, 30, 'health');
         game.add.tween(healthbar).to({x: '+1000'}, 1000, Phaser.Easing.Bounce.Out, true, 0, 0, false);
         //add mask to sprite such that only the area we want seen is
         mask = game.add.graphics(0, 0);
         //  Shapes drawn to the Graphics object must be filled.
         mask.beginFill(0xffffff);
         //  Here we'll draw a Rectangle
-        mask.drawRect(200, 0 ,1000, 20);
+        mask.drawRect(200, 30 ,1000, 20);
         // And apply it to the Sprite
-        healthbar.mask = mask;
-        //Rectangle(x,y,width,height)    
-        var text = "health: ";
-        var style = { font: "20px Arial", fill: "#ff0000"};
-        var t = game.add.text(100, 0, text, style);
+        healthbar.mask = mask; 
     }
     
     function abilityOne () {
