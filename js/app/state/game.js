@@ -59,6 +59,7 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
                     function(bullet, mob) {
                         mob.kill();
                         obj.hurt(50);
+                        HUD.score(50);
                     }
                 );
                 game.physics.arcade.overlap(obj.mob, player.player,
