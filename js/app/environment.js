@@ -5,7 +5,8 @@ function(config, platform) {
 
     var Environment = function() {}
     Environment.prototype.build = function(game)
-    {
+    {   
+        game.add.audio('BGmusic').play('',0,1,true);
         game.physics.startSystem(Phaser.Physics.ARCADE)
 
         this.game = game;
@@ -19,7 +20,7 @@ function(config, platform) {
             { x: 0,
               y: config.game.height - 150 },
             { height: 150,
-              width: config.game.width },
+              width: config.game.width},
             'ground', true, true);
 
         platform.create(
