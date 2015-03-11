@@ -5,7 +5,7 @@ function(config) {
     var healthbar, battery, energybar;
     var mask, CDmask, maskenergy;
     var key1, key2, key3;
-    var CD1, total = 0, score = 0, totalenergy = 100;
+    var CD1, total = 0, score = 0, totalenergy = 100, totaldamage = 0;
     var CoolDown = 3, CoolDown2 = 4, CoolDown3 = 5;
     var text1, text2, text3, energytext;
     var timer1, timer2, timer3;
@@ -16,9 +16,9 @@ function(config) {
     {
         this.game = game;
                 
-        score = game.add.text(500, (config.game.height - 100), 'Score: 0', { font: "40px Arial", fill: "#000000", align: "center" });
+        score = game.add.text(500, (config.game.height - 100), 'Score: 0', { font: "40px Arial", fill: "#FFFF00", align: "center", stroke: '#000000', strokeThickness: 6});
+        energytext = game.add.text(850, (config.game.height - 100), 'Energy: ', { font: "40px Arial", fill: "#FFFF00", align: "center", stroke: '#000000', strokeThickness: 6});
         
-        energytext = game.add.text(850, (config.game.height - 100), 'Energy: ', { font: "40px Arial", fill: "#000000", align: "center" });
         battery = game.add.sprite(1000, (config.game.height - 100), 'battery');
         battery.scale.setTo(.4, .4);
         
@@ -64,7 +64,9 @@ function(config) {
         if(CoolDown == 3 && singlePress1 == true && totalenergy >= 10){
             singlePress1 = false;
             
-            text1 = this.game.add.text(113, (config.game.height - 100), '', { font: "40px Arial", fill: "#000000", align: "center" });
+            text1 = this.game.add.text(113, (config.game.height - 100), '', { font: "40px Arial", fill: "#FFFF00", align: "center" });
+            text1.stroke = '#000000';
+            text1.strokeThickness = 6;
             text1.setText(CoolDown);
             
             timer1 = this.game.time.events.loop(Phaser.Timer.SECOND, updateCounter, this);
@@ -89,7 +91,9 @@ function(config) {
         if(CoolDown2 == 4 && singlePress2 == true && totalenergy >= 20){
             singlePress2 = false;
             
-            text2 = this.game.add.text(213, (config.game.height - 100), '', { font: "40px Arial", fill: "#000000", align: "center" });
+            text2 = this.game.add.text(213, (config.game.height - 100), '', { font: "40px Arial", fill: "#FFFF00", align: "center" });
+            text2.stroke = '#000000';
+            text2.strokeThickness = 6;
             text2.setText(CoolDown2);
             
             timer2 = this.game.time.events.loop(Phaser.Timer.SECOND, updateCounter2, this);
@@ -114,7 +118,9 @@ function(config) {
         if(CoolDown3 == 5 && singlePress3 == true && totalenergy >= 40){
             singlePress3 = false;
             
-            text3 = this.game.add.text(313, (config.game.height - 100), '', { font: "40px Arial", fill: "#000000", align: "center" });
+            text3 = this.game.add.text(313, (config.game.height - 100), '', { font: "40px Arial", fill: "#FFFF00", align: "center" });
+            text3.stroke = '#000000';
+            text3.strokeThickness = 6;
             text3.setText(CoolDown3);
             
             timer3 = this.game.time.events.loop(Phaser.Timer.SECOND, updateCounter3, this);
@@ -140,13 +146,6 @@ function(config) {
         totalenergy = totalenergy - amount;
         if (totalenergy <= 0)
             totalenergy = 0;
-    }
-    
-    //items in the game may use this function
-    function restoreEnergy(amount){
-        totalenergy = totalenergy + amount;
-        if (totalenergy >= 100)
-            totalenergy = 100;
     }
     
     function updateCounter() {
@@ -182,6 +181,13 @@ function(config) {
         }
     }
     
+    //items in the game may use this function
+    HUD.prototype.restoreEnergy = function(amount){
+        totalenergy = totalenergy + amount;
+        if (totalenergy >= 100)
+            totalenergy = 100;
+    }
+    
     HUD.prototype.score = function(points){
         total = total + points;
         score.setText('Score: ' + total);
@@ -189,13 +195,8 @@ function(config) {
     
     HUD.prototype.hurt = function(damage)
     {
-        // TODO put damage instead '-40'
-        // relative tweens need the single quote parameters but
-        // escape quotes won't work here ex. "\'-" + damage + "\'"
-        // so I'm using if statements for now
-        
-        if(damage == 40)
-            this.game.add.tween(healthbar).to({x: '-40'}, 50, Phaser.Easing.Bounce.Out, true, 0, 0, false);
+        totaldamage = totaldamage + damage;
+        this.game.add.tween(healthbar).to({x: (-1800 - totaldamage)}, 50, Phaser.Easing.Bounce.Out, true, 0, 0, false);
     }
     return new HUD();
 
