@@ -4,8 +4,8 @@ define(function() {
 
     var config = {
         game: {
-            width: window.innerWidth,
-            height: window.innerHeight,
+            width: 1280,
+            height: 720,
             spawnpoints: [2500, 2000]
         },
         movement: {
@@ -34,7 +34,7 @@ define(function() {
         platform: {
             bare: {
                 x: 0,
-                y: window.innerHeight - 270,
+                y: 720 - 270,
                 height: 20,
                 width: 400
             }

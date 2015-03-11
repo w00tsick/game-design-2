@@ -20,7 +20,7 @@ function(config, platform) {
             { x: 0,
               y: config.game.height - 150 },
             { height: 150,
-              width: config.game.width},
+              width: config.game.width + 1000},
             'ground', true, true);
 
         platform.create(

@@ -2,8 +2,9 @@ define([
     'vendor/phaser', 
     'app/config',
     'app/state/menu',
-    'app/state/game'],
-function(phaser, config, menu, game) {
+    'app/state/game',
+    'app/state/help'],
+function(phaser, config, menu, game, help) {
 
     "use strict";
 
@@ -16,6 +17,7 @@ function(phaser, config, menu, game) {
 
     Game.state.add("menu", menu);
     Game.state.add("game", game);
+    Game.state.add("help", help);
     Game.state.start("menu");
 
     return Game;

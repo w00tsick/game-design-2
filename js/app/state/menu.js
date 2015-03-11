@@ -39,7 +39,7 @@ function(config) {
 
             var text = "Start Game";
             var style = { font: "65px Arial", fill: "#ffffff", align: "center", cursor: "pointer"};
-            var t = this.game.add.text(this.game.world.centerX - 170, this.game.world.centerY + 150, text, style);
+            var t = this.game.add.text(this.game.world.centerX - 170, this.game.world.centerY + 100, text, style);
             t.inputEnabled = true;
             var fx = this.game.add.audio('sfx');
             t.events.onInputUp.add(function() {
@@ -49,11 +49,21 @@ function(config) {
             }, this);
             
             var text2 = "Fullscreen";
-            var t2 = this.game.add.text(this.game.world.centerX - 160, this.game.world.centerY + 250, text2, style);
+            var t2 = this.game.add.text(this.game.world.centerX - 160, this.game.world.centerY + 175, text2, style);
             t2.inputEnabled = true;
             t2.events.onInputUp.add(function() {
                 this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
                 this.game.scale.startFullScreen();
+            }, this);
+        
+            var text3 = "Help";
+            var t3 = this.game.add.text(this.game.world.centerX - 85, this.game.world.centerY + 250, text3, style);
+            t3.inputEnabled = true;
+            var fx = this.game.add.audio('sfx');
+            t3.events.onInputUp.add(function() {
+                bgm.stop();
+                fx.play('', 0,1);
+                this.game.state.start('help');
             }, this);
         },
         
