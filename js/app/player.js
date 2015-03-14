@@ -148,7 +148,7 @@ function(config) {
         {
             this.nextFire = this.game.time.now + this.fireRate;
             var bullet = this.bullets.getFirstDead();
-            bullet.reset(this.player.x, this.player.y);
+            bullet.reset(this.player.x, this.player.y + 50);
             this.game.physics.arcade.moveToPointer(bullet, 1000);
         }
     }
