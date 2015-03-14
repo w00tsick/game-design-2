@@ -34,8 +34,8 @@ define(function() {
         platform: {
             bare: {
                 x: 0,
-                y: 720 - 270,
-                height: 20,
+                y: 720 - 265, 
+                height: 10,
                 width: 400
             }
         }

@@ -39,8 +39,10 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
             var fx = this.game.add.audio('impact');
             fx.addMarker('impact-segment', 0, .5);
             var playerObject = player.player;
+	   
             var bullets = player.bullets;
             var mobObjects = mobFactory.getAliveMobs();
+
             // Jump cheking
             if(playerObject.body.velocity.y >= 0 && playerObject.body.velocity.y <= 20){
                 count += 1;
@@ -49,9 +51,28 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
             }else{
                 player.setJumping(true);
                 count = 0;
-            }
+            }	    
+            game.physics.arcade.collide(playerObject, platform.platformGroup,
+		function (playerr, platformm){
+		    // trying to fix collision, but it does not work because of tween is being use to move platforms
+		    player.player.body.velocity.x = 0;
+		    platformm.body.velocity.x = 0;
+		    // && (player.player.body.y + player.player.height) > platformm.body.y
+		    if(!platformm.is.ground){		
+			environment.ableMove = false;
+		    }
+	    });
 
-            game.physics.arcade.collide(playerObject, platform.platformGroup);
+	    // Homing Missile
+	    if(HUD.k1){
+		this.game.physics.arcade.moveToPointer(HUD.missile, 1000)
+		game.physics.arcade.collide(HUD.missile, platform.platformGroup,
+		   function(missile, plat) {
+		       missile.kill();
+		       HUD.k1 = false;
+                   });
+	    }
+	    
             mobObjects.forEach(function(obj) {
                 obj.mob.healthGraphic.x = obj.mob.body.x + 30;
                 obj.mob.healthGraphic.y = obj.mob.body.y;
@@ -65,6 +86,12 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
                         HUD.score(50);
                     }
                 );
+		game.physics.arcade.collide(HUD.missile, obj.mob,
+		   function(missile, mob) {
+		       missile.kill();
+		       HUD.k1 = false;
+		       obj.hurt(700);
+                   });
                 game.physics.arcade.overlap(obj.mob, player.player,
                     function(player, mob) {
                         console.log('test');

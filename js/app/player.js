@@ -28,20 +28,18 @@ function(config) {
         this.registerAnimations();
         this.registerBullets();
         this.jumping = false;
-        console.log(config.game.width / 2 - 40);
-        console.log(this.player.body.x);
     }
 
     Player.prototype.registerSprite = function()
     {
-        var player = this.game.add.sprite(config.game.width / 2 - 40, 0, 'player');
+        var player = this.game.add.sprite(config.game.width / 2 - 40, 0 , 'player');
         this.game.physics.arcade.enable(player);
         player.frame = 11;
         player.width = 100;
         player.height = 100;
         player.body.bounce.y = 0;
         player.body.gravity.y = 1000;
-        player.body.collideWorldBounds = true;
+	player.body.collideWorldBounds = true;
 
         this.player = player;
     }
