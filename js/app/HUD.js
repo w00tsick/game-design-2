@@ -11,7 +11,11 @@ function(config) {
     var timer1, timer2, timer3;
     var singlePress1 = true, singlePress2 = true, singlePress3 = true;
     
-    var HUD = function() {}
+    var HUD = function() {
+	this.k1 = false;
+	this.k2 = false;
+	this.k3 = false;
+    }
     HUD.prototype.build = function(game)
     {
         this.game = game;
@@ -32,7 +36,41 @@ function(config) {
         //  Here we create 3 hotkeys, keys Q,E,R and bind them all to their own functions
         key1 = game.input.keyboard.addKey(Phaser.Keyboard.Q);
         //TODO replace with different weapon functions
-        key1.onDown.add(abilityOne, this);
+        key1.onDown.add(
+	    function abilityOne () {
+		if(CoolDown == 3 && singlePress1 == true && totalenergy >= 10){
+		    singlePress1 = false;
+		    
+		    // Missile
+		    this.k1 = true;
+		    this.missile = this.game.add.sprite(0,0,'bullet');
+		    this.game.physics.enable(this.missile, Phaser.Physics.ARCADE);
+		    this.missile.body.collideWorldBounds = true;
+		    this.missile.enableBody = true;
+		    this.missile.physicsBodyType = Phaser.Physics.ARCADE;
+		    
+		    text1 = this.game.add.text(113, (config.game.height - 100), '', { font: "40px Arial", fill: "#FFFF00", align: "center" });
+		    text1.stroke = '#000000';
+		    text1.strokeThickness = 6;
+		    text1.setText(CoolDown);
+		    
+		    timer1 = this.game.time.events.loop(Phaser.Timer.SECOND, updateCounter, this);
+            
+		    CDmask = this.game.add.graphics(0, 0);
+		    CDmask.beginFill(0xffffff);
+		    CDmask.drawRect(100, (config.game.height - 100),50, 50);
+		    
+		    CD1 = this.game.add.graphics(0,0);
+		    CD1.beginFill(0x000000, .5);
+		    CD1.drawRect(100, (config.game.height - 100) ,50, 50);
+		    CD1.mask = CDmask;
+		    
+		    depleteEnergy(10);
+		    
+		    this.game.add.tween(CD1).to({y: '+50'}, 3000, Phaser.Easing.Linear.None, true, 0, 0, false);
+		    this.game.add.tween(energybar).to({x: '-8'}, 100, Phaser.Easing.Linear.None, true, 0, 0, false);
+		}
+	    }, this);
         key2 = game.input.keyboard.addKey(Phaser.Keyboard.E);
         //TODO replace with different weapon functions
         key2.onDown.add(abilityTwo, this);
@@ -58,33 +96,6 @@ function(config) {
         maskenergy.beginFill(0xffffff);
         maskenergy.drawRect(1006, (config.game.height - 94) ,84, 31);
         energybar.mask = maskenergy; 
-    }
-    
-    function abilityOne () {
-        if(CoolDown == 3 && singlePress1 == true && totalenergy >= 10){
-            singlePress1 = false;
-            
-            text1 = this.game.add.text(113, (config.game.height - 100), '', { font: "40px Arial", fill: "#FFFF00", align: "center" });
-            text1.stroke = '#000000';
-            text1.strokeThickness = 6;
-            text1.setText(CoolDown);
-            
-            timer1 = this.game.time.events.loop(Phaser.Timer.SECOND, updateCounter, this);
-            
-            CDmask = this.game.add.graphics(0, 0);
-            CDmask.beginFill(0xffffff);
-            CDmask.drawRect(100, (config.game.height - 100),50, 50);
-            
-            CD1 = this.game.add.graphics(0,0);
-            CD1.beginFill(0x000000, .5);
-            CD1.drawRect(100, (config.game.height - 100) ,50, 50);
-            CD1.mask = CDmask;
-            
-            depleteEnergy(10);
-            
-            this.game.add.tween(CD1).to({y: '+50'}, 3000, Phaser.Easing.Linear.None, true, 0, 0, false);
-            this.game.add.tween(energybar).to({x: '-8'}, 100, Phaser.Easing.Linear.None, true, 0, 0, false);
-        };
     }
 
     function abilityTwo () {

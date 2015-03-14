@@ -28,15 +28,15 @@ function(config) {
      */
     Action.prototype.goLeft = function(deps)
     {
-        Action.direction = 'left';
+	Action.direction = 'left';
         deps.player.playMoveLeft();
         if (deps.environment.worldMoving)
-        {
-            deps.environment.move(config.movement.speed * -1, deps.platforms);
+        {		
+	    deps.environment.move(config.movement.speed * -1, deps.platforms);
         }
         else
         {
-           deps.player.moveLeft();
+	    deps.player.moveLeft();
         }
     }
 
@@ -45,15 +45,15 @@ function(config) {
      */
     Action.prototype.goRight = function(deps)
     {
-        Action.direction = 'right';
+	Action.direction = 'right';
         deps.player.playMoveRight();
-        if (deps.environment.worldMoving)
+	if (deps.environment.worldMoving)
         {
-            deps.environment.move(config.movement.speed, deps.platforms);
+	    deps.environment.move(config.movement.speed, deps.platforms);
         }
         else
         {
-            deps.player.moveRight();
+	    deps.player.moveRight();
         }
     }
 

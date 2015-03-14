@@ -20,13 +20,13 @@ function(config) {
             this.game.load.audio('sfx', 'assets/audio/SoundEffects/LikeABoss.mp3');        
             //https://www.youtube.com/watch?v=i57YfVVYILU remember to give credit
             //he put this up for everyone to use
-            this.game.load.audio('BGmenu', 'assets/audio/SoundEffects/likeabossinstrumentalremix3.mp3');
+            //this.game.load.audio('BGmenu', 'assets/audio/SoundEffects/likeabossinstrumentalremix3.mp3');
             //https://www.youtube.com/watch?v=QKAhyrP0MEg give credit for this as well
-            this.game.load.audio('BGmusic', 'assets/audio/SoundEffects/FutureClub.mp3');
+            //this.game.load.audio('BGmusic', 'assets/audio/SoundEffects/FutureClub.mp3');
         },
         create: function() {
             var bgm = this.game.add.audio('BGmenu');
-            bgm.play('',0,1,true);
+            //bgm.play('',0,1,true);
             this.game.add.sprite(config.game.width / 2 - 500 / 2,
                 config.game.height / 2 - 350, 'logo');
             var background = this.game.add.sprite(0, 0);
@@ -45,7 +45,7 @@ function(config) {
             var fx = this.game.add.audio('sfx');
             t.events.onInputUp.add(function() {
                 bgm.stop();
-                fx.play('', 0,1);
+                //fx.play('', 0,1);
                 this.game.state.start('game');
             }, this);
             
@@ -63,7 +63,7 @@ function(config) {
             var fx = this.game.add.audio('sfx');
             t3.events.onInputUp.add(function() {
                 bgm.stop();
-                fx.play('', 0,1);
+                //fx.play('', 0,1);
                 this.game.state.start('help');
             }, this);
         },

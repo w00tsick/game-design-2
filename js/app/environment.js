@@ -13,7 +13,7 @@ function(config, platform) {
         this.backdrop = game.add.tileSprite(-3000, 0, 5000, config.game.height,
             'background');
         this.worldMoving = true;
-
+	this.ableMove = true;
         platform.init(game);
 
         platform.create(
@@ -32,7 +32,7 @@ function(config, platform) {
 
         platform.create(
             { x: config.platform.bare.x,
-              y: config.platform.bare.y },
+              y: config.platform.bare.y + 50 },
             { height: config.platform.bare.height,
               width: config.platform.bare.width},
             'ground');
@@ -60,9 +60,11 @@ function(config, platform) {
 
     Environment.prototype.move = function(direction, platforms, amount)
     {
-        this.backdrop.x -= (direction / (direction - (direction / 2)))
+	//if(this.ableMove){
+            this.backdrop.x -= (direction / (direction - (direction / 2)))
                          * (direction / Math.abs(direction))
-        platforms.move(direction);
+            platforms.move(direction);
+	//}
     }
 
     Environment.prototype.stopWorld = function()
