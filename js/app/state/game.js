@@ -18,11 +18,12 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
     game.prototype = {
         preload: function() {
             this.game.load.image('ground', 'assets/images/ground-temp.jpg');
-            this.game.load.image('background', 'assets/images/sky.gif');
+            this.game.load.image('background', 'assets/images/bgtest.jpg');
             this.game.load.image('health', 'assets/images/gradient.png');
-            this.game.load.spritesheet('player', 'assets/images/player-sprite-temp.png', 40, 40);
+            this.game.load.spritesheet('player', 'assets/images/player-sprite-wire.png', 400, 400);
             this.game.load.spritesheet('mob', 'assets/images/player-badguy-temp.png', 40, 40);
-            this.game.load.image('bullet', 'assets/images/bullet-temp.jpg');
+            this.game.load.image('bullet', 'assets/images/rsz_bullet.png', 10, 10);
+            this.game.load.audio('impact', 'assets/audio/SoundEffects/bullet-hit.wav');
         },
         create: function() {
             environment.build(this.game);
@@ -35,7 +36,8 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
         update: function() {
 
             var game = this.game;
-
+            var fx = this.game.add.audio('impact');
+            fx.addMarker('impact-segment', 0, .5);
             var playerObject = player.player;
             var bullets = player.bullets;
             var mobObjects = mobFactory.getAliveMobs();
@@ -58,6 +60,7 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
                     // TODO for some reason these are backwards ?
                     function(bullet, mob) {
                         mob.kill();
+                        fx.play('impact-segment');
                         obj.hurt(50);
                         HUD.score(50);
                     }
@@ -89,6 +92,7 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
                     // backwars either
                     function(bullet, player) {
                         player.kill();
+                        fx.play('impact-segment');
                         HUD.hurt(40);
                     }
                 );
