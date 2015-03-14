@@ -3,13 +3,14 @@ function(config) {
 
     "use strict";
 
-    var Mob = function(game, spawnpoint)
+    var Mob = function(game, spawnpoint, isBoss)
     {
         this.game = game;
         this.registerSprite(game, spawnpoint);
         this.registerAnimations();
         this.registerBullets();
         this.facing = "right"
+        this.isBoss = isBoss || false;
     }
 
     Mob.prototype.registerSprite = function(game, spawnpoint)

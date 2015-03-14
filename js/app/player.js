@@ -17,12 +17,14 @@ function(config) {
 
         this.player = null;
         this.bullets = null;
+        this.level = 1;
+        this.alive = true;
+        this.instance = instance;
         return instance;
     }
 
     Player.prototype.build = function(game)
     {
-        Player.game
         this.game = game;
         this.registerSprite();
         this.registerAnimations();
@@ -39,7 +41,7 @@ function(config) {
         player.height = 150;
         player.body.bounce.y = 0;
         player.body.gravity.y = 1000;
-	player.body.collideWorldBounds = true;
+        player.body.collideWorldBounds = true;
 
         this.player = player;
     }
