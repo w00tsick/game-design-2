@@ -28,7 +28,7 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
             this.game.load.image('ground3', 'assets/images/bound3.jpg');
             this.game.load.image('floor1', 'assets/images/floor1.jpg');
             this.game.load.image('floor2', 'assets/images/floor2.jpg');
-            this.game.load.image('floor2', 'assets/images/floor3.jpg');
+            this.game.load.image('floor3', 'assets/images/floor3.jpg');
             this.game.load.audio('impact', 'assets/audio/SoundEffects/bullet-hit.wav');
             this.game.load.image('health', 'assets/images/gradient.png');
             this.game.load.spritesheet('player', 'assets/images/player-sprite-wire.png', 400, 400);
