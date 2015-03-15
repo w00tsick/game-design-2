@@ -141,7 +141,7 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
                     function(bullet, player) {
                         player.kill();
                         fx.play('impact-segment');
-                        HUD.hurt(40);
+                        HUD.hurt(10);
                     }
                 );
             });
@@ -192,8 +192,9 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
                         game.currentLevel = game.currentLevel + 1;
                         game.state.start('game');
                     }
-                    else
-                    {
+
+                    if (game.currentLevel == config.game.level.length)
+                    { 
                         game.state.start('you-win');
                     }
                 }
