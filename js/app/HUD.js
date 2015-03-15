@@ -1,5 +1,5 @@
-define(['app/config'],
-function(config) {
+define(['app/config', 'app/environment'],
+function(config, environment) {
 
     "use strict";
     var healthbar, battery, energybar;
@@ -38,40 +38,41 @@ function(config) {
         key1 = game.input.keyboard.addKey(Phaser.Keyboard.Q);
         //TODO replace with different weapon functions
         key1.onDown.add(
-            function abilityOne () {
-                if(CoolDown == 3 && singlePress1 == true && totalenergy >= 10){
-                    singlePress1 = false;
-
-                    // Missile
-                    this.k1 = true;
-                    this.missile = this.game.add.sprite(0,0,'bullet');
-                    this.game.physics.enable(this.missile, Phaser.Physics.ARCADE);
-                    this.missile.body.collideWorldBounds = true;
-                    this.missile.enableBody = true;
-                    this.missile.physicsBodyType = Phaser.Physics.ARCADE;
-
-                    text1 = this.game.add.text(113, (config.game.height - 100), '', { font: "40px Arial", fill: "#FFFF00", align: "center" });
-                    text1.stroke = '#000000';
-                    text1.strokeThickness = 6;
-                    text1.setText(CoolDown);
-
-                    timer1 = this.game.time.events.loop(Phaser.Timer.SECOND, updateCounter, this);
-
-                    CDmask = this.game.add.graphics(0, 0);
-                    CDmask.beginFill(0xffffff);
-                    CDmask.drawRect(100, (config.game.height - 100),50, 50);
-
-                    CD1 = this.game.add.graphics(0,0);
-                    CD1.beginFill(0x000000, .5);
-                    CD1.drawRect(100, (config.game.height - 100) ,50, 50);
-                    CD1.mask = CDmask;
-
-                    depleteEnergy(10);
-
-                    this.game.add.tween(CD1).to({y: '+50'}, 3000, Phaser.Easing.Linear.None, true, 0, 0, false);
-                    this.game.add.tween(energybar).to({x: '-8'}, 100, Phaser.Easing.Linear.None, true, 0, 0, false);
-                }
-        }, this);
+	    function abilityOne () {
+		if(CoolDown == 3 && singlePress1 == true && totalenergy >= 10){
+		    singlePress1 = false;
+		    
+		    // Missile
+		    this.k1 = true;
+		    this.missile = this.game.add.sprite(0,0,'missile');
+                    this.missile.anchor.setTo(.5, .5);
+		    this.game.physics.enable(this.missile, Phaser.Physics.ARCADE);
+		    this.missile.body.collideWorldBounds = true;
+		    this.missile.enableBody = true;
+		    this.missile.physicsBodyType = Phaser.Physics.ARCADE;
+		    
+		    text1 = this.game.add.text(113, (config.game.height - 100), '', { font: "40px Arial", fill: "#FFFF00", align: "center" });
+		    text1.stroke = '#000000';
+		    text1.strokeThickness = 6;
+		    text1.setText(CoolDown);
+		    
+		    timer1 = this.game.time.events.loop(Phaser.Timer.SECOND, updateCounter, this);
+            
+		    CDmask = this.game.add.graphics(0, 0);
+		    CDmask.beginFill(0xffffff);
+		    CDmask.drawRect(100, (config.game.height - 100),50, 50);
+		    
+		    CD1 = this.game.add.graphics(0,0);
+		    CD1.beginFill(0x000000, .5);
+		    CD1.drawRect(100, (config.game.height - 100) ,50, 50);
+		    CD1.mask = CDmask;
+		    
+		    depleteEnergy(10);
+		    
+		    this.game.add.tween(CD1).to({y: '+50'}, 3000, Phaser.Easing.Linear.None, true, 0, 0, false);
+		    this.game.add.tween(energybar).to({x: '-8'}, 100, Phaser.Easing.Linear.None, true, 0, 0, false);
+		}
+	    }, this);
         key2 = game.input.keyboard.addKey(Phaser.Keyboard.E);
         //TODO replace with different weapon functions
         key2.onDown.add(abilityTwo, this);
@@ -129,7 +130,7 @@ function(config) {
     function finalAbility () {
         if(CoolDown3 == 5 && singlePress3 == true && totalenergy >= 40){
             singlePress3 = false;
-
+            this.k3 = true;
             text3 = this.game.add.text(313, (config.game.height - 100), '', { font: "40px Arial", fill: "#FFFF00", align: "center" });
             text3.stroke = '#000000';
             text3.strokeThickness = 6;
@@ -150,6 +151,18 @@ function(config) {
 
             this.game.add.tween(CD1).to({y: '+50'}, 5000, Phaser.Easing.Linear.None, true, 0, 0, false);
             this.game.add.tween(energybar).to({x: '-32'}, 100, Phaser.Easing.Linear.None, true, 0, 0, false);
+            
+            var flash = this.game.add.graphics(0, 0);
+            flash.beginFill(0xffffff);
+            flash.drawRect(0, 0, 1280, 720);
+            flash.alpha = 1;
+            this.game.add.tween(environment.nuke).to({alpha: 1}, 2590, Phaser.Easing.Linear.None)
+            .to({alpha: 0}, 10, Phaser.Easing.Linear.None)
+            .start();
+            this.game.add.tween(flash).to({alpha: 0}, 600, Phaser.Easing.Linear.None)
+            .to({alpha: 1}, 2000,Phaser.Easing.Linear.None)
+            .to({alpha: 0}, 500, Phaser.Easing.Linear.None)
+            .start();
         }
     }
 
@@ -184,6 +197,7 @@ function(config) {
 
     function updateCounter3() {
         CoolDown3--;
+        this.k3 = false;
         text3.setText(CoolDown3);
         if(CoolDown3 == 0){
             CoolDown3 = 5;

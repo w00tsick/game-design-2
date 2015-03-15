@@ -100,6 +100,7 @@ function(config) {
      */
     Platform.prototype.getIntersection = function(ray)
     {
+        var game = this.game;
         var status = false;
         this.platformGroup.forEach(function(plat) {
             // Creating lines for ray intersection

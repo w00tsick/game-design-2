@@ -18,6 +18,7 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
     game.prototype = {
         preload: function() {
             this.game.load.image('ground', 'assets/images/ground-temp.jpg');
+            this.game.load.image('nuke_bg', 'assets/images/nuke.jpg');
             this.game.load.audio('impact', 'assets/audio/SoundEffects/bullet-hit.wav');
             this.game.load.image('background1', 'assets/images/bgtest.jpg');
             this.game.load.image('background2', 'assets/images/bgtest3.jpg');
@@ -44,7 +45,9 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
 	   
             var bullets = player.bullets;
             var mobObjects = mobFactory.getAliveMobs();
-
+            
+            environment.filter.update();
+            
             // Jump cheking
             if(playerObject.body.velocity.y >= 0 && playerObject.body.velocity.y <= 20){
                 count += 1;
@@ -67,13 +70,20 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
 
 	    // Homing Missile
 	    if(HUD.k1){
-		this.game.physics.arcade.moveToPointer(HUD.missile, 1000)
+		HUD.missile.rotation = this.game.physics.arcade.moveToPointer(HUD.missile, 1000, this.game.input.activePointer, 500)
 		game.physics.arcade.collide(HUD.missile, platform.platformGroup,
 		   function(missile, plat) {
 		       missile.kill();
 		       HUD.k1 = false;
                    });
 	    }
+            
+            //nuke
+            if(HUD.k3){
+                mobObjects.forEach(function(obj) {
+                    obj.hurt(1000);
+                });
+            }
 	    
             mobObjects.forEach(function(obj) {
                 obj.mob.healthGraphic.x = obj.mob.body.x + 30;
