@@ -42,9 +42,9 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
             HUD.build(this.game, player);
             action.init(this.game);
             controls.bind(this.game, action, environment, player);
-	    console.log(config.game.height - 150);
-	    // Reseting the bounds to prevent them to pass through the floor.
-	    this.game.world.setBounds(0, 0, config.game.width, config.game.height - 150);
+            console.log(config.game.height - 150);
+            // Reseting the bounds to prevent them to pass through the floor.
+            this.game.world.setBounds(0, 0, config.game.width, config.game.height - 150);
         },
 
         update: function() {
@@ -86,18 +86,18 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
                         HUD.k1 = false;
                 });
             }
-            
+
             //laser
             if(HUD.k2){
-                    console.log(HUD.direction);
-                    if(HUD.direction == 'left'){
-                        HUD.laser.body.x = playerObject.body.x - 950;
-                        HUD.laser.body.y = playerObject.body.y;
-                    }
-                    else if(HUD.direction == 'right'){
-                        HUD.laser.body.x = playerObject.body.x + 75;
-                        HUD.laser.body.y = playerObject.body.y;
-                    }
+                console.log(HUD.direction);
+                if(HUD.direction == 'left'){
+                    HUD.laser.body.x = playerObject.body.x - 950;
+                    HUD.laser.body.y = playerObject.body.y;
+                }
+                else if(HUD.direction == 'right'){
+                    HUD.laser.body.x = playerObject.body.x + 75;
+                    HUD.laser.body.y = playerObject.body.y;
+                }
             }
             else if (HUD.k2 == false){
                 if(typeof HUD.laser != 'undefined')
@@ -126,6 +126,7 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
                         HUD.score(50);
                     }
                 );
+
                 game.physics.arcade.collide(HUD.missile, obj.mob,
                     function(missile, mob) {
                         missile.kill();
@@ -133,7 +134,7 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
                         obj.hurt(700);
                         HUD.score(50);
                 });
-                console.log();
+
                 game.physics.arcade.overlap(HUD.laser, obj.mob,
                     function(laser, mob) {
                         if(HUD.k2){
@@ -146,6 +147,7 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
                         console.log('test');
                     }
                 );
+
                 /* Mobs shooting
                  *  Is he able to shoot
                  */
@@ -227,7 +229,7 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
                 }
             }
 
-            controls.check(game);
+        controls.check(game);
         }
     }
 
