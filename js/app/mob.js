@@ -126,7 +126,7 @@ function(config) {
     }
 
 
-    Mob.prototype.shoot = function(x,y)
+    Mob.prototype.shoot = function(x,y,mobx,moby)
     {
         switch (this.facing) {
         case "left":
@@ -141,8 +141,8 @@ function(config) {
         {
             this.nextFire = this.game.time.now + this.fireRate;
             var bullet = this.bullets.getFirstDead();
-            bullet.reset(this.mob.x, this.mob.y);
-            this.game.physics.arcade.moveToXY(bullet,x,y,500);
+            bullet.reset(mobx, moby);
+            this.game.physics.arcade.moveToXY(bullet,x,y,450);
         }
     }
 

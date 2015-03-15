@@ -74,7 +74,7 @@ function(config) {
             bindings.forEach(function(key) {
                 var actionObject = this.action;
                 key.onDown.add(function() { actionObject.go(); });
-                key.onUp.add(function() { actionObject.stopped(); });
+                key.onUp.add(function() { actionObject.stopped(key); });
                 if (key.isDown) { action(); }
             }, this);
         }).bind(this);

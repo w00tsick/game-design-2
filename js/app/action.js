@@ -5,9 +5,14 @@ function(config) {
 
     var Action = function() {}
 
-    Action.direction = null;
+    Action.direction = "left";
     Action.moving = false;
 
+    Action.prototype.setDirection = function(dir)
+    {
+	Action.direction = dir;
+    }
+    
     Action.prototype.init = function(game)
     {
         this.game = game;
@@ -18,9 +23,10 @@ function(config) {
         Action.moving = true;
     }
 
-    Action.prototype.stopped = function()
+    Action.prototype.stopped = function(key)
     {
-        Action.moving = false;
+	if(key.keyCode != Phaser.Keyboard.SPACEBAR && key.keyCode != Phaser.Keyboard.W)
+            Action.moving = false;	   
     }
 
     /**
