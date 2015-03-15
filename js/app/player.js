@@ -17,12 +17,14 @@ function(config) {
 
         this.player = null;
         this.bullets = null;
+        this.level = 1;
+        this.alive = true;
+        this.instance = instance;
         return instance;
     }
 
     Player.prototype.build = function(game)
     {
-        Player.game
         this.game = game;
         this.registerSprite();
         this.registerAnimations();
@@ -35,11 +37,11 @@ function(config) {
         var player = this.game.add.sprite(config.game.width / 2 - 40, 0 , 'player');
         this.game.physics.arcade.enable(player);
         player.frame = 11;
-        player.width = 100;
-        player.height = 100;
+        player.width = 150;
+        player.height = 150;
         player.body.bounce.y = 0;
         player.body.gravity.y = 1000;
-	player.body.collideWorldBounds = true;
+        player.body.collideWorldBounds = true;
 
         this.player = player;
     }
@@ -148,7 +150,7 @@ function(config) {
         {
             this.nextFire = this.game.time.now + this.fireRate;
             var bullet = this.bullets.getFirstDead();
-            bullet.reset(this.player.x, this.player.y);
+            bullet.reset(this.player.x, this.player.y + 50);
             this.game.physics.arcade.moveToPointer(bullet, 1000);
         }
     }

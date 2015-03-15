@@ -15,6 +15,7 @@ function(phaser, config, menu, game, help) {
         'game',
         true);
 
+    Game.currentLevel = 0;
     Game.state.add("menu", menu);
     Game.state.add("game", game);
     Game.state.add("help", help);

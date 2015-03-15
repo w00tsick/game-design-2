@@ -10,27 +10,28 @@ function(config, environment) {
     var text1, text2, text3, energytext;
     var timer1, timer2, timer3;
     var singlePress1 = true, singlePress2 = true, singlePress3 = true;
-    
+
     var HUD = function() {
-	this.k1 = false;
-	this.k2 = false;
-	this.k3 = false;
+        this.k1 = false;
+        this.k2 = false;
+        this.k3 = false;
     }
-    HUD.prototype.build = function(game)
+    HUD.prototype.build = function(game, player)
     {
         this.game = game;
-                
+        this.player = player;
+
         score = game.add.text(500, (config.game.height - 100), 'Score: 0', { font: "40px Arial", fill: "#FFFF00", align: "center", stroke: '#000000', strokeThickness: 6});
         energytext = game.add.text(850, (config.game.height - 100), 'Energy: ', { font: "40px Arial", fill: "#FFFF00", align: "center", stroke: '#000000', strokeThickness: 6});
-        
+
         battery = game.add.sprite(1000, (config.game.height - 100), 'battery');
         battery.scale.setTo(.4, .4);
-        
+
         game.add.sprite(100, (config.game.height - 100), 'button1');
         game.add.sprite(200, (config.game.height - 100), 'button2');
         game.add.sprite(300, (config.game.height - 100), 'button3');
         game.add.sprite(3, -4, 'healthUI');
-        
+
         //The following hotkeys may not need to be in HUD.js
         //I'm simply keeping them here while I work out functionality
         //  Here we create 3 hotkeys, keys Q,E,R and bind them all to their own functions
@@ -78,7 +79,7 @@ function(config, environment) {
         key3 = game.input.keyboard.addKey(Phaser.Keyboard.R);
         //TODO replace with different weapon functions
         key3.onDown.add(finalAbility, this);
-        
+
         //gradient health bar sprite
         healthbar = game.add.sprite(-2800, 30, 'health');
         game.add.tween(healthbar).to({x: '+1000'}, 1000, Phaser.Easing.Bounce.Out, true, 0, 0, false);
@@ -90,7 +91,7 @@ function(config, environment) {
         mask.drawRect(200, 30 ,1000, 20);
         // And apply it to the Sprite
         healthbar.mask = mask; 
-        
+
         energybar = game.add.sprite(922, (config.game.height - 94), 'energy');
         game.add.tween(energybar).to({x: '+84'}, 1000, Phaser.Easing.Linear.None, true, 0, 0, false);
         maskenergy = game.add.graphics(0, 0);
@@ -102,25 +103,25 @@ function(config, environment) {
     function abilityTwo () {
         if(CoolDown2 == 4 && singlePress2 == true && totalenergy >= 20){
             singlePress2 = false;
-            
+
             text2 = this.game.add.text(213, (config.game.height - 100), '', { font: "40px Arial", fill: "#FFFF00", align: "center" });
             text2.stroke = '#000000';
             text2.strokeThickness = 6;
             text2.setText(CoolDown2);
-            
+
             timer2 = this.game.time.events.loop(Phaser.Timer.SECOND, updateCounter2, this);
-            
+
             CDmask = this.game.add.graphics(0, 0);
             CDmask.beginFill(0xffffff);
             CDmask.drawRect(200, (config.game.height - 100),50, 50);
-            
+
             CD1 = this.game.add.graphics(0,0);
             CD1.beginFill(0x000000, .5);
             CD1.drawRect(200, (config.game.height - 100) ,50, 50);
             CD1.mask = CDmask;
-            
+
             depleteEnergy(20);
-            
+
             this.game.add.tween(CD1).to({y: '+50'}, 4000, Phaser.Easing.Linear.None, true, 0, 0, false);
             this.game.add.tween(energybar).to({x: '-16'}, 100, Phaser.Easing.Linear.None, true, 0, 0, false);
         }
@@ -130,25 +131,24 @@ function(config, environment) {
         if(CoolDown3 == 5 && singlePress3 == true && totalenergy >= 40){
             singlePress3 = false;
             this.k3 = true;
-            
             text3 = this.game.add.text(313, (config.game.height - 100), '', { font: "40px Arial", fill: "#FFFF00", align: "center" });
             text3.stroke = '#000000';
             text3.strokeThickness = 6;
             text3.setText(CoolDown3);
-            
+
             timer3 = this.game.time.events.loop(Phaser.Timer.SECOND, updateCounter3, this);
-            
+
             CDmask = this.game.add.graphics(0, 0);
             CDmask.beginFill(0xffffff);
             CDmask.drawRect(300, (config.game.height - 100),50, 50);
-            
+
             CD1 = this.game.add.graphics(0,0);
             CD1.beginFill(0x000000, .5);
             CD1.drawRect(300, (config.game.height - 100) ,50, 50);
             CD1.mask = CDmask;
-            
+
             depleteEnergy(40);
-            
+
             this.game.add.tween(CD1).to({y: '+50'}, 5000, Phaser.Easing.Linear.None, true, 0, 0, false);
             this.game.add.tween(energybar).to({x: '-32'}, 100, Phaser.Easing.Linear.None, true, 0, 0, false);
             
@@ -165,14 +165,14 @@ function(config, environment) {
             .start();
         }
     }
-    
+
     //depletes on use of skills
     function depleteEnergy(amount) {
         totalenergy = totalenergy - amount;
         if (totalenergy <= 0)
             totalenergy = 0;
     }
-    
+
     function updateCounter() {
         CoolDown--;
         text1.setText(CoolDown);
@@ -183,7 +183,7 @@ function(config, environment) {
             singlePress1 = true;
         }
     }
-    
+
     function updateCounter2() {
         CoolDown2--;
         text2.setText(CoolDown2);
@@ -194,7 +194,7 @@ function(config, environment) {
             singlePress2 = true;
         }
     }
-    
+
     function updateCounter3() {
         CoolDown3--;
         this.k3 = false;
@@ -206,23 +206,39 @@ function(config, environment) {
             singlePress3 = true;
         }
     }
-    
+
     //items in the game may use this function
     HUD.prototype.restoreEnergy = function(amount){
         totalenergy = totalenergy + amount;
         if (totalenergy >= 100)
             totalenergy = 100;
     }
-    
+
     HUD.prototype.score = function(points){
         total = total + points;
         score.setText('Score: ' + total);
     }
-    
+
     HUD.prototype.hurt = function(damage)
     {
         totaldamage = totaldamage + damage;
+        if (totaldamage > 1000)
+        {
+            this.player.alive = false;
+            this.player.player.kill();
+        }
+        else if (totaldamage > 700)
+        {
+            this.player.level = 3;
+        }
+        else if (totaldamage > 300)
+        {
+            this.player.level = 2;
+        }
+
         this.game.add.tween(healthbar).to({x: (-1800 - totaldamage)}, 50, Phaser.Easing.Bounce.Out, true, 0, 0, false);
+        console.log(this.player.level);
+        console.log(this.player.alive);
     }
     return new HUD();
 

@@ -3,13 +3,14 @@ function(config) {
 
     "use strict";
 
-    var Mob = function(game, spawnpoint)
+    var Mob = function(game, spawnpoint, isBoss)
     {
         this.game = game;
         this.registerSprite(game, spawnpoint);
         this.registerAnimations();
         this.registerBullets();
         this.facing = "right"
+        this.isBoss = isBoss || false;
     }
 
     Mob.prototype.registerSprite = function(game, spawnpoint)
@@ -17,8 +18,8 @@ function(config) {
         var mob = game.add.sprite(spawnpoint, 0, 'mob');
         game.physics.arcade.enable(mob);
         mob.frame = 11;
-        mob.width = 100;
-        mob.height = 100;
+        mob.width = 225;
+        mob.height = 225;
         mob.body.bounce.y = 0;
         mob.body.gravity.y = 1000;
 

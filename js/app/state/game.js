@@ -18,18 +18,20 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
     game.prototype = {
         preload: function() {
             this.game.load.image('ground', 'assets/images/ground-temp.jpg');
-            this.game.load.image('background', 'assets/images/bgtest.jpg');
             this.game.load.image('nuke_bg', 'assets/images/nuke.jpg');
+            this.game.load.audio('impact', 'assets/audio/SoundEffects/bullet-hit.wav');
+            this.game.load.image('background1', 'assets/images/bgtest.jpg');
+            this.game.load.image('background2', 'assets/images/bgtest3.jpg');
             this.game.load.image('health', 'assets/images/gradient.png');
             this.game.load.spritesheet('player', 'assets/images/player-sprite-wire.png', 400, 400);
+            this.game.load.image('bullet', 'assets/images/bullet-temp.png');
             this.game.load.spritesheet('mob', 'assets/images/player-badguy-temp.png', 40, 40);
-            this.game.load.image('bullet', 'assets/images/rsz_bullet.png', 10, 10);
-            this.game.load.audio('impact', 'assets/audio/SoundEffects/bullet-hit.wav');
+
         },
         create: function() {
             environment.build(this.game);
-            HUD.build(this.game);
             player.build(this.game);
+            HUD.build(this.game, player);
             action.init(this.game);
             controls.bind(this.game, action, environment, player);
         },
@@ -141,7 +143,7 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
                 }
             );
 
-            config.game.spawnpoints.forEach(function(spawnpoint) {
+            config.game.level[game.currentLevel].spawnpoints.forEach(function(spawnpoint) {
                 if (Math.abs(environment.backdrop.x) < spawnpoint)
                 {
                     if (mobFactory.canspawn)
@@ -153,7 +155,7 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
                     else if (mobFactory.getAliveMobs().length == 0
                         && playerObject.body.x < config.game.width / 2)
                     {
-                        config.game.spawnpoints.shift();
+                        config.game.level[game.currentLevel].spawnpoints.shift();
                         mobFactory.canspawn = true;
                         environment.startWorld(playerObject, environment,
                             platform);

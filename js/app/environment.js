@@ -49,7 +49,8 @@ function(config, platform) {
 
         this.game = game;
         this.backdrop = game.add.tileSprite(-3000, 0, 5000, config.game.height,
-            'background');
+            config.game.level[game.currentLevel].background);
+			
         this.nuke = game.add.tileSprite(0, 0, 1920, 1080, 'nuke_bg');
         this.nuke.scale.y = .75;
         this.nuke.scale.x = .75;
@@ -61,8 +62,8 @@ function(config, platform) {
         
         this.filter = new Phaser.Filter(game, customUniforms, fragmentSrc);
         this.filter.setResolution(1920, 1080);
-        this.nuke.filters = [ this.filter ];
-        
+        this.nuke.filters = [ this.filter ];	
+
         this.worldMoving = true;
 	this.ableMove = true;
         platform.init(game);
@@ -81,27 +82,14 @@ function(config, platform) {
               width: config.game.width},
             'ground');
 
-        platform.create(
-            { x: config.platform.bare.x,
-              y: config.platform.bare.y + 50 },
-            { height: config.platform.bare.height,
-              width: config.platform.bare.width},
-            'ground');
-
-        platform.create(
-            { x: config.platform.bare.x - 600,
-              y: config.platform.bare.y - 50},
-            { height: config.platform.bare.height,
-              width: config.platform.bare.width},
-            'ground');
-
-        platform.create(
-            { x: config.platform.bare.x - 1300,
-              y: config.platform.bare.y + 50},
-            { height: config.platform.bare.height,
-              width: config.platform.bare.width},
-            'ground');
-
+        config.game.level[game.currentLevel].platforms.forEach(function(settings) {
+            platform.create(
+                { x: config.platform.bare.x + settings.x, 
+                  y: config.platform.bare.y + settings.y },
+                { height: config.platform.bare.height,
+                  width: config.platform.bare.width},
+                'ground');
+        });
     }
 
     Environment.prototype.getPlatform = function()
