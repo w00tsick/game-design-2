@@ -43,9 +43,9 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
             HUD.build(this.game, player);
             action.init(this.game);
             controls.bind(this.game, action, environment, player);
-	    console.log(config.game.height - 150);
-	    // Reseting the bounds to prevent them to pass through the floor.
-	    this.game.world.setBounds(0, 0, config.game.width, config.game.height - 150);
+            console.log(config.game.height - 150);
+            // Reseting the bounds to prevent them to pass through the floor.
+            this.game.world.setBounds(0, 0, config.game.width, config.game.height - 150);
         },
 
         update: function() {
@@ -60,7 +60,7 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
 
             environment.filter.update();
 
-            // Jump cheking
+            // Jump cheking	   
             if(playerObject.body.velocity.y >= 0 && playerObject.body.velocity.y <= 20){
                 count += 1;
                 if(count > 10)
@@ -90,18 +90,18 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
                         HUD.k1 = false;
                 });
             }
-            
+
             //laser
             if(HUD.k2){
-                    console.log(HUD.direction);
-                    if(HUD.direction == 'left'){
-                        HUD.laser.body.x = playerObject.body.x - 950;
-                        HUD.laser.body.y = playerObject.body.y;
-                    }
-                    else if(HUD.direction == 'right'){
-                        HUD.laser.body.x = playerObject.body.x + 75;
-                        HUD.laser.body.y = playerObject.body.y;
-                    }
+                console.log(HUD.direction);
+                if(HUD.direction == 'left'){
+                    HUD.laser.body.x = playerObject.body.x - 950;
+                    HUD.laser.body.y = playerObject.body.y;
+                }
+                else if(HUD.direction == 'right'){
+                    HUD.laser.body.x = playerObject.body.x + 75;
+                    HUD.laser.body.y = playerObject.body.y;
+                }
             }
             else if (HUD.k2 == false){
                 if(typeof HUD.laser != 'undefined')
@@ -130,6 +130,7 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
                         HUD.score(50);
                     }
                 );
+
                 game.physics.arcade.collide(HUD.missile, obj.mob,
                     function(missile, mob) {
                         missile.kill();
@@ -138,7 +139,7 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
                         obj.hurt(700);
                         HUD.score(50);
                 });
-                console.log();
+
                 game.physics.arcade.overlap(HUD.laser, obj.mob,
                     function(laser, mob) {
                         if(HUD.k2){
@@ -151,14 +152,28 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
                         console.log('test');
                     }
                 );
+
                 /* Mobs shooting
                  *  Is he able to shoot
                  */
                 obj.faceCheck(player);
-                var ray = new Phaser.Line(obj.mob.body.x, obj.mob.body.y,playerObject.body.x, playerObject.body.y)
+		var mobx, moby, py, px;
+		if(obj.facing == "right")
+		    mobx = obj.mob.body.x + obj.mob.width;
+		else
+		    mobx = obj.mob.body.x;
 
-                if(!platform.getIntersection(ray, game))
-                    obj.shoot(playerObject.body.x, playerObject.body.y)
+		moby = obj.mob.body.y + (obj.mob.height/2);
+		
+		py = playerObject.body.y + (playerObject.height/2);
+		if(action.direction = "right")
+		    px = playerObject.body.x + playerObject.width;
+		else
+		    px = playerObject.body.x;
+
+		var ray = new Phaser.Line(mobx, moby, px, py)
+                if(!platform.getIntersection(ray,game))
+                    obj.shoot(px, py, mobx, moby);
                 else
                     obj.rest();
 
@@ -225,14 +240,15 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
                         game.currentLevel = game.currentLevel + 1;
                         game.state.start('game');
                     }
-                    else
+
+                    if (game.currentLevel == config.game.level.length)
                     {
                         game.state.start('you-win');
                     }
                 }
             }
 
-            controls.check(game);
+        controls.check(game);
         }
     }
 

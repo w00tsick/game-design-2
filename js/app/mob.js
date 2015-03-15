@@ -23,7 +23,7 @@ function(config) {
         mob.height = 200;
         mob.body.bounce.y = 0;
         mob.body.gravity.y = 1000;
-	mob.body.collideWorldBounds = true;
+        mob.body.collideWorldBounds = true;
         mob.healthGraphic = game.add.graphics(0, 0);
         mob.healthGraphic.beginFill(0xff0000)
         mob.healthGraphic.drawRect(0, 10, 40, 7);
@@ -126,7 +126,7 @@ function(config) {
     }
 
 
-    Mob.prototype.shoot = function(x,y)
+    Mob.prototype.shoot = function(x,y,mobx,moby)
     {
         switch (this.facing) {
         case "left":
@@ -141,8 +141,8 @@ function(config) {
         {
             this.nextFire = this.game.time.now + this.fireRate;
             var bullet = this.bullets.getFirstDead();
-            bullet.reset(this.mob.x, this.mob.y);
-            this.game.physics.arcade.moveToXY(bullet,x,y,500);
+            bullet.reset(mobx, moby);
+            this.game.physics.arcade.moveToXY(bullet,x,y,450);
         }
     }
 

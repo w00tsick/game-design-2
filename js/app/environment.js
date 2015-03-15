@@ -50,7 +50,7 @@ function(config, platform) {
         this.game = game;
         this.backdrop = game.add.tileSprite(-3000, 0, 5000, config.game.height,
             config.game.level[game.currentLevel].background);
-			
+            
         this.nuke = game.add.tileSprite(0, 0, 1920, 1080, 'nuke_bg');
         this.nuke.scale.y = .75;
         this.nuke.scale.x = .75;
@@ -62,10 +62,10 @@ function(config, platform) {
         
         this.filter = new Phaser.Filter(game, customUniforms, fragmentSrc);
         this.filter.setResolution(1920, 1080);
-        this.nuke.filters = [ this.filter ];	
+        this.nuke.filters = [ this.filter ];    
 
         this.worldMoving = true;
-	this.ableMove = true;
+        this.ableMove = true;
         platform.init(game);
 
         platform.create(
@@ -73,14 +73,14 @@ function(config, platform) {
               y: config.game.height - 150 },
             { height: 150,
               width: config.game.width + 1000},
-            'floor1', true, true);
+            config.game.level[game.currentLevel].floor, true, true);
 
         platform.create(
             { x: config.game.width - 200,
               y: 0 },
             { height: config.game.height,
               width: config.game.width},
-            'ground1');
+            config.game.level[game.currentLevel].floor);
 
         config.game.level[game.currentLevel].platforms.forEach(function(settings) {
             platform.create(
@@ -88,7 +88,7 @@ function(config, platform) {
                   y: config.platform.bare.y + settings.y },
                 { height: config.platform.bare.height,
                   width: config.platform.bare.width},
-                'ground');
+                config.game.level[game.currentLevel].ground);
         });
     }
 
@@ -99,11 +99,9 @@ function(config, platform) {
 
     Environment.prototype.move = function(direction, platforms, amount)
     {
-	//if(this.ableMove){
-            this.backdrop.x -= (direction / (direction - (direction / 2)))
-                         * (direction / Math.abs(direction))
-            platforms.move(direction);
-	//}
+        this.backdrop.x -= (direction / (direction - (direction / 2)))
+                     * (direction / Math.abs(direction))
+        platforms.move(direction);
     }
 
     Environment.prototype.stopWorld = function()
