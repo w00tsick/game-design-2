@@ -70,17 +70,17 @@ function(config, platform) {
 
         platform.create(
             { x: 0,
-              y: config.game.height - 150 },
+                y: config.game.height - 150 },
             { height: 150,
-              width: config.game.width + 1000},
-            'floor1', true, true);
+                width: config.game.width + 1000},
+            config.game.level[game.currentLevel].floor, true, true);
 
         platform.create(
             { x: config.game.width - 200,
-              y: 0 },
+                y: 0 },
             { height: config.game.height,
-              width: config.game.width},
-            'ground1');
+                width: config.game.width},
+            config.game.level[game.currentLevel].floor);
 
         config.game.level[game.currentLevel].platforms.forEach(function(settings) {
             platform.create(
@@ -88,7 +88,7 @@ function(config, platform) {
                   y: config.platform.bare.y + settings.y },
                 { height: config.platform.bare.height,
                   width: config.platform.bare.width},
-                'ground');
+                config.game.level[game.currentLevel].ground);
         });
     }
 
