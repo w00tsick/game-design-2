@@ -10,6 +10,10 @@ define(function() {
             level: [ 
                 {
                     spawnpoints: [2500, 2000],
+                    bossSpawnpoint: 1500,
+                    bossHitPoints: 1000,
+                    mobCount: 5,
+                    mobHitPoints: 100,
                     background: "background1",
                     platforms: [
                         { x: 0, y: 0 },
@@ -20,6 +24,10 @@ define(function() {
                 },
                 {
                     spawnpoints: [2500, 2000],
+                    bossSpawnpoint: 1500,
+                    bossHitPoints: 1000,
+                    mobCount: 7,
+                    mobHitPoints: 200,
                     background: "background2",
                     platforms: [
                         { x: 0, y: 0 },
