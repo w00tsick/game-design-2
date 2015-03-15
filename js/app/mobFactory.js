@@ -7,6 +7,11 @@ function(config, Mob) {
     var MobFactory = {
         mobs: [],
         canspawn: true,
+        buildBoss: function(game)
+        {
+            MobFactory.mobs.push(new Mob(game, 100, true,
+                config.game.level[game.currentLevel].bossHitPoints));
+        },
         build: function(game, mobs)
         {
             var buildLocations = [];
@@ -29,7 +34,8 @@ function(config, Mob) {
             for (var i = 0; i < mobs; i++)
             {
                 // TODO add positioning options
-                MobFactory.mobs.push(new Mob(game, Math.random() * config.game.width));
+                MobFactory.mobs.push(new Mob(game, buildLocations[i], false,
+                    config.game.level[game.currentLevel].mobHitPoints));
             }
 
             return MobFactory.mobs;

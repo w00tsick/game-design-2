@@ -20,8 +20,9 @@ function(config, environment) {
     {
         this.game = game;
         this.player = player;
+        var totalscore = this.game.totalscore;
 
-        score = game.add.text(500, (config.game.height - 100), 'Score: 0', { font: "40px Arial", fill: "#FFFF00", align: "center", stroke: '#000000', strokeThickness: 6});
+        score = game.add.text(500, (config.game.height - 100), 'Score: ' + totalscore , { font: "40px Arial", fill: "#FFFF00", align: "center", stroke: '#000000', strokeThickness: 6});
         energytext = game.add.text(850, (config.game.height - 100), 'Energy: ', { font: "40px Arial", fill: "#FFFF00", align: "center", stroke: '#000000', strokeThickness: 6});
 
         battery = game.add.sprite(1000, (config.game.height - 100), 'battery');
@@ -216,7 +217,8 @@ function(config, environment) {
 
     HUD.prototype.score = function(points){
         total = total + points;
-        score.setText('Score: ' + total);
+        this.game.totalscore = total;
+        score.setText('Score: ' + this.game.totalscore);
     }
 
     HUD.prototype.hurt = function(damage)
@@ -226,6 +228,7 @@ function(config, environment) {
         {
             this.player.alive = false;
             this.player.player.kill();
+            this.game.state.start('game-over');
         }
         else if (totaldamage > 700)
         {
