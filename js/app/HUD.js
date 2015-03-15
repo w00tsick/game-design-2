@@ -25,6 +25,7 @@ function(config, environment, player, platform, action) {
         this.player = player;
         var totalscore = this.game.totalscore;
 
+
         score = game.add.text(500, (config.game.height - 100), 'Score: ' + totalscore , { font: "40px Arial", fill: "#FFFF00", align: "center", stroke: '#000000', strokeThickness: 6});
         energytext = game.add.text(850, (config.game.height - 100), 'Energy: ', { font: "40px Arial", fill: "#FFFF00", align: "center", stroke: '#000000', strokeThickness: 6});
 
@@ -115,6 +116,9 @@ function(config, environment, player, platform, action) {
             this.direction = action.getDirection();
             singlePress2 = false;
             this.k2 = true;
+            
+            var fx4 = this.game.add.audio('laser');
+            fx4.addMarker('laser-segment', 1, 1);
 
             if(this.direction == 'left'){
                 this.laser = this.game.add.sprite(playerObject.body.x - 950, playerObject.body.y,'laser');
@@ -123,6 +127,7 @@ function(config, environment, player, platform, action) {
                 this.laser.body.collideWorldBounds = true;
                 this.laser.physicsBodyType = Phaser.Physics.ARCADE;
                 this.laser.anchor.setTo(0, .5);
+                fx4.play('laser-segment');
             }
             else if(this.direction == 'right'){
                 this.laser = this.game.add.sprite(playerObject.body.x + 75, playerObject.body.y,'laser');
@@ -131,6 +136,7 @@ function(config, environment, player, platform, action) {
                 this.laser.body.collideWorldBounds = true;
                 this.laser.physicsBodyType = Phaser.Physics.ARCADE;
                 this.laser.anchor.setTo(0, .5);
+                fx4.play('laser-segment');
             }
                     
             text2 = this.game.add.text(213, (config.game.height - 100), '', { font: "40px Arial", fill: "#FFFF00", align: "center" });
@@ -158,12 +164,17 @@ function(config, environment, player, platform, action) {
 
     function finalAbility () {
         if(CoolDown3 == 5 && singlePress3 == true && totalenergy >= 40){
+            
+            var fx3 = this.game.add.audio('nuclearblast');
+            fx3.addMarker('nuke-segment', 4, 3);
+        
             singlePress3 = false;
             this.k3 = true;
             text3 = this.game.add.text(313, (config.game.height - 100), '', { font: "40px Arial", fill: "#FFFF00", align: "center" });
             text3.stroke = '#000000';
             text3.strokeThickness = 6;
             text3.setText(CoolDown3);
+            fx3.play('nuke-segment', 3, 2);
 
             timer3 = this.game.time.events.loop(Phaser.Timer.SECOND, updateCounter3, this);
 

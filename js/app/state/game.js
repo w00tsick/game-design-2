@@ -20,6 +20,7 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
             this.game.load.image('ground', 'assets/images/ground-temp.jpg');
             this.game.load.image('nuke_bg', 'assets/images/nuke.jpg');
             this.game.load.audio('impact', 'assets/audio/SoundEffects/bullet-hit.wav');
+            this.game.load.audio('bomb', 'assets/audio/SoundEffects/bomb.wav');
             this.game.load.image('background1', 'assets/images/bgtest.jpg');
             this.game.load.image('background2', 'assets/images/bgtest2.jpg');
             this.game.load.image('background3', 'assets/images/bgtest3.jpg');
@@ -51,6 +52,8 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
             var game = this.game;
             var fx = this.game.add.audio('impact');
             fx.addMarker('impact-segment', 0, .5);
+            var fx2 = this.game.add.audio('bomb');
+            fx2.addMarker('bomb-segment', 0, 1);
             var playerObject = player.player;
             var bullets = player.bullets;
             var mobObjects = mobFactory.getAliveMobs();
@@ -83,6 +86,7 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
                 game.physics.arcade.collide(HUD.missile, platform.platformGroup,
                     function(missile, plat) {
                         missile.kill();
+                        fx2.play('bomb-segment');
                         HUD.k1 = false;
                 });
             }
@@ -130,6 +134,7 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
                 game.physics.arcade.collide(HUD.missile, obj.mob,
                     function(missile, mob) {
                         missile.kill();
+                        fx2.play('bomb-segment');
                         HUD.k1 = false;
                         obj.hurt(700);
                         HUD.score(50);

@@ -10,6 +10,8 @@ function(config) {
         preload: function() {
             this.game.load.image('logo', 'assets/images/logo_crop_500.png');
             this.game.load.script('filter', 'https://cdn.rawgit.com/photonstorm/phaser/master/filters/Fire.js');
+            this.game.load.audio('nuclearblast', 'assets/audio/SoundEffects/nuclearblast.mp3');
+            this.game.load.audio('laser', 'assets/audio/SoundEffects/laser.mp3');
             this.game.load.image('button1', 'assets/images/hotkey1.png');
             this.game.load.image('button2', 'assets/images/Hotkey2.png');
             this.game.load.image('button3', 'assets/images/Hotkey3.png');
