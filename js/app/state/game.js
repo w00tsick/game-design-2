@@ -34,15 +34,16 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
             HUD.build(this.game, player);
             action.init(this.game);
             controls.bind(this.game, action, environment, player);
+	    console.log(config.game.height - 150);
+	    // Reseting the bounds to prevent them to pass through the floor.
+	    this.game.world.setBounds(0, 0, config.game.width, config.game.height - 150);
         },
 
         update: function() {
-
             var game = this.game;
             var fx = this.game.add.audio('impact');
             fx.addMarker('impact-segment', 0, .5);
             var playerObject = player.player;
-
             var bullets = player.bullets;
             var mobObjects = mobFactory.getAliveMobs();
 
