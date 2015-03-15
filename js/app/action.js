@@ -74,6 +74,11 @@ function(config) {
     {
         deps.player.shoot();
     }
+    
+    Action.prototype.getDirection = function()
+    {
+        return Action.direction;
+    }
 
     return new Action();
 

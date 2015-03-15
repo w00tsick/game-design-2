@@ -15,8 +15,6 @@ define(function() {
                     mobCount: 5,
                     mobHitPoints: 100,
                     background: "background1",
-                    ground: "ground1",
-                    floor: "floor1",
                     platforms: [
                         { x: 0, y: 0 },
                         { x: -600, y: -50 },
@@ -24,7 +22,6 @@ define(function() {
                         { x: -2300, y: 50 },
                     ]
                 },
-
                 {
                     spawnpoints: [2500, 2000],
                     bossSpawnpoint: 1500,
@@ -32,8 +29,6 @@ define(function() {
                     mobCount: 7,
                     mobHitPoints: 200,
                     background: "background2",
-                    ground: "ground2",
-                    floor: "floor2",
                     platforms: [
                         { x: 0, y: 0 },
                         { x: -800, y: -100 },

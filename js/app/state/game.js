@@ -89,9 +89,15 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
             
             //laser
             if(HUD.k2){
-                HUD.laser.rotation = game.physics.arcade.angleToPointer(HUD.laser);
-                HUD.laser.body.x = playerObject.body.x + 75;
-                HUD.laser.body.y = playerObject.body.y;
+                    console.log(HUD.direction);
+                    if(HUD.direction == 'left'){
+                        HUD.laser.body.x = playerObject.body.x - 950;
+                        HUD.laser.body.y = playerObject.body.y;
+                    }
+                    else if(HUD.direction == 'right'){
+                        HUD.laser.body.x = playerObject.body.x + 75;
+                        HUD.laser.body.y = playerObject.body.y;
+                    }
             }
             else if (HUD.k2 == false){
                 if(typeof HUD.laser != 'undefined')
@@ -127,11 +133,12 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
                         obj.hurt(700);
                         HUD.score(50);
                 });
-                game.physics.arcade.collide(HUD.laser, obj.mob,
+                console.log();
+                game.physics.arcade.overlap(HUD.laser, obj.mob,
                     function(laser, mob) {
                         if(HUD.k2){
-                            obj.hurt(20);
-                            HUD.score(50);
+                            obj.hurt(1);
+                            HUD.score(1);
                         }
                 });
                 game.physics.arcade.overlap(obj.mob, player.player,
@@ -162,7 +169,7 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
                     function(bullet, player) {
                         player.kill();
                         fx.play('impact-segment');
-                        HUD.hurt(10);
+                        HUD.hurt(40);
                     }
                 );
             });
@@ -213,9 +220,8 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
                         game.currentLevel = game.currentLevel + 1;
                         game.state.start('game');
                     }
-
-                    if (game.currentLevel == config.game.level.length)
-                    { 
+                    else
+                    {
                         game.state.start('you-win');
                     }
                 }
