@@ -21,11 +21,19 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
             this.game.load.image('nuke_bg', 'assets/images/nuke.jpg');
             this.game.load.audio('impact', 'assets/audio/SoundEffects/bullet-hit.wav');
             this.game.load.image('background1', 'assets/images/bgtest.jpg');
-            this.game.load.image('background2', 'assets/images/bgtest3.jpg');
+            this.game.load.image('background2', 'assets/images/bgtest2.jpg');
+            this.game.load.image('background3', 'assets/images/bgtest3.jpg');
+            this.game.load.image('ground1', 'assets/images/bound1.jpg');
+            this.game.load.image('ground2', 'assets/images/bound2.jpg');
+            this.game.load.image('ground3', 'assets/images/bound3.jpg');
+            this.game.load.image('floor1', 'assets/images/floor1.jpg');
+            this.game.load.image('floor2', 'assets/images/floor2.jpg');
+            this.game.load.image('floor2', 'assets/images/floor3.jpg');
+            this.game.load.audio('impact', 'assets/audio/SoundEffects/bullet-hit.wav');
             this.game.load.image('health', 'assets/images/gradient.png');
             this.game.load.spritesheet('player', 'assets/images/player-sprite-wire.png', 400, 400);
             this.game.load.image('bullet', 'assets/images/bullet-temp.png');
-            this.game.load.spritesheet('mob', 'assets/images/player-badguy-temp.png', 40, 40);
+            this.game.load.spritesheet('mob', 'assets/images/player-badguyca.png', 100, 100);
 
         },
         create: function() {

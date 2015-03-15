@@ -55,9 +55,9 @@ define(function() {
             },
 
             mob: {
-                restRight: [1],
+                restRight: [0,6,8,9],
                 restLeft: [1],
-                runRight: [1],
+                runRight: [0,6,8,9],
                 runLeft: [10, 11, 12, 13, 14, 15],
                 jumpRight: [30, 31],
                 jumpLeft: [32, 33]
