@@ -73,14 +73,14 @@ function(config, platform) {
               y: config.game.height - 150 },
             { height: 150,
               width: config.game.width + 1000},
-            'ground', true, true);
+            'floor1', true, true);
 
         platform.create(
             { x: config.game.width - 200,
               y: 0 },
             { height: config.game.height,
               width: config.game.width},
-            'ground');
+            'ground1');
 
         config.game.level[game.currentLevel].platforms.forEach(function(settings) {
             platform.create(
