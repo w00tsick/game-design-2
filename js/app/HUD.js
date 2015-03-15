@@ -1,5 +1,5 @@
-define(['app/config', 'app/environment'],
-function(config, environment) {
+define(['app/config', 'app/environment','app/player', 'app/platform'],
+function(config, environment, player, platform) {
 
     "use strict";
     var healthbar, battery, energybar;
@@ -8,6 +8,7 @@ function(config, environment) {
     var CD1, total = 0, score = 0, totalenergy = 100, totaldamage = 0;
     var CoolDown = 3, CoolDown2 = 4, CoolDown3 = 5;
     var text1, text2, text3, energytext;
+    var keytextQ, keytextE, keytextR;
     var timer1, timer2, timer3;
     var singlePress1 = true, singlePress2 = true, singlePress3 = true;
 
@@ -27,11 +28,15 @@ function(config, environment) {
 
         battery = game.add.sprite(1000, (config.game.height - 100), 'battery');
         battery.scale.setTo(.4, .4);
-
+        
         game.add.sprite(100, (config.game.height - 100), 'button1');
         game.add.sprite(200, (config.game.height - 100), 'button2');
         game.add.sprite(300, (config.game.height - 100), 'button3');
         game.add.sprite(3, -4, 'healthUI');
+        
+        keytextQ = game.add.text(100, (config.game.height - 100), 'Q', { font: "15px Arial", fill: "#FFFFFF", align: "center", stroke: '#000000', strokeThickness: 4});
+        keytextE = game.add.text(200, (config.game.height - 100), 'E', { font: "15px Arial", fill: "#FFFFFF", align: "center", stroke: '#000000', strokeThickness: 4});
+        keytextR = game.add.text(300, (config.game.height - 100), 'R', { font: "15px Arial", fill: "#FFFFFF", align: "center", stroke: '#000000', strokeThickness: 4});
 
         //The following hotkeys may not need to be in HUD.js
         //I'm simply keeping them here while I work out functionality
@@ -42,10 +47,11 @@ function(config, environment) {
 	    function abilityOne () {
 		if(CoolDown == 3 && singlePress1 == true && totalenergy >= 10){
 		    singlePress1 = false;
-		    
+		    var playerObject = player.player;
+                    
 		    // Missile
 		    this.k1 = true;
-		    this.missile = this.game.add.sprite(0,0,'missile');
+		    this.missile = this.game.add.sprite(playerObject.body.x,playerObject.body.y,'missile');
                     this.missile.anchor.setTo(.5, .5);
 		    this.game.physics.enable(this.missile, Phaser.Physics.ARCADE);
 		    this.missile.body.collideWorldBounds = true;
@@ -103,8 +109,16 @@ function(config, environment) {
 
     function abilityTwo () {
         if(CoolDown2 == 4 && singlePress2 == true && totalenergy >= 20){
+            var playerObject = player.player;
             singlePress2 = false;
-
+            this.k2 = true;
+            
+            this.laser = this.game.add.sprite(playerObject.body.x, playerObject.body.y,'laser');
+            this.laser.anchor.setTo(0, .5);
+            this.game.physics.enable(this.laser, Phaser.Physics.ARCADE);
+            this.laser.enableBody = true;
+            this.laser.physicsBodyType = Phaser.Physics.ARCADE;
+                    
             text2 = this.game.add.text(213, (config.game.height - 100), '', { font: "40px Arial", fill: "#FFFF00", align: "center" });
             text2.stroke = '#000000';
             text2.strokeThickness = 6;
@@ -187,6 +201,7 @@ function(config, environment) {
 
     function updateCounter2() {
         CoolDown2--;
+        this.k2 = false;
         text2.setText(CoolDown2);
         if(CoolDown2 == 0){
             CoolDown2 = 4;
@@ -228,6 +243,8 @@ function(config, environment) {
         {
             this.player.alive = false;
             this.player.player.kill();
+            totaldamage = 0;
+            totalenergy = 100;
             this.game.state.start('game-over');
         }
         else if (totaldamage > 700)

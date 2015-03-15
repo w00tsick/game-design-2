@@ -102,6 +102,7 @@ function(config) {
     {
         var game = this.game;
         var status = false;
+        var intersect;
         this.platformGroup.forEach(function(plat) {
             // Creating lines for ray intersection
             var lines = [
@@ -114,7 +115,7 @@ function(config) {
             lines.forEach(function(line) {
                 //game.debug.geom(line);
                 //game.debug.geom(ray);
-                var intersect = Phaser.Line.intersects(ray, line);
+                intersect = Phaser.Line.intersects(ray, line);
                 if(intersect){
                     status = true;
                     return;
