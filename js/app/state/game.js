@@ -86,11 +86,16 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
                         HUD.k1 = false;
                 });
             }
+            
+            if(HUD.k2){
+                
+            }
 
             //nuke
             if(HUD.k3){
                 mobObjects.forEach(function(obj) {
                     obj.hurt(1000);
+                    HUD.score(50);
                 });
             }
 
@@ -112,6 +117,7 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
                         missile.kill();
                         HUD.k1 = false;
                         obj.hurt(700);
+                        HUD.score(50);
                 });
                 game.physics.arcade.overlap(obj.mob, player.player,
                     function(player, mob) {
@@ -124,7 +130,7 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
                 obj.faceCheck(player);
                 var ray = new Phaser.Line(obj.mob.body.x, obj.mob.body.y,playerObject.body.x, playerObject.body.y)
 
-                if(!platform.getIntersection(ray,game))
+                if(!platform.getIntersection(ray, 2, game))
                     obj.shoot(playerObject.body.x, playerObject.body.y)
                 else
                     obj.rest();

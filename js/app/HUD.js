@@ -1,5 +1,5 @@
-define(['app/config', 'app/environment'],
-function(config, environment) {
+define(['app/config', 'app/environment','app/player', 'app/platform'],
+function(config, environment, player, platform) {
 
     "use strict";
     var healthbar, battery, energybar;
@@ -8,6 +8,7 @@ function(config, environment) {
     var CD1, total = 0, score = 0, totalenergy = 100, totaldamage = 0;
     var CoolDown = 3, CoolDown2 = 4, CoolDown3 = 5;
     var text1, text2, text3, energytext;
+    var keytextQ, keytextE, keytextR;
     var timer1, timer2, timer3;
     var singlePress1 = true, singlePress2 = true, singlePress3 = true;
 
@@ -27,11 +28,15 @@ function(config, environment) {
 
         battery = game.add.sprite(1000, (config.game.height - 100), 'battery');
         battery.scale.setTo(.4, .4);
-
+        
         game.add.sprite(100, (config.game.height - 100), 'button1');
         game.add.sprite(200, (config.game.height - 100), 'button2');
         game.add.sprite(300, (config.game.height - 100), 'button3');
         game.add.sprite(3, -4, 'healthUI');
+        
+        keytextQ = game.add.text(100, (config.game.height - 100), 'Q', { font: "15px Arial", fill: "#FFFFFF", align: "center", stroke: '#000000', strokeThickness: 4});
+        keytextE = game.add.text(200, (config.game.height - 100), 'E', { font: "15px Arial", fill: "#FFFFFF", align: "center", stroke: '#000000', strokeThickness: 4});
+        keytextR = game.add.text(300, (config.game.height - 100), 'R', { font: "15px Arial", fill: "#FFFFFF", align: "center", stroke: '#000000', strokeThickness: 4});
 
         //The following hotkeys may not need to be in HUD.js
         //I'm simply keeping them here while I work out functionality
@@ -104,7 +109,8 @@ function(config, environment) {
     function abilityTwo () {
         if(CoolDown2 == 4 && singlePress2 == true && totalenergy >= 20){
             singlePress2 = false;
-
+            this.k2 = true;
+            var playerObject = player.player;
             text2 = this.game.add.text(213, (config.game.height - 100), '', { font: "40px Arial", fill: "#FFFF00", align: "center" });
             text2.stroke = '#000000';
             text2.strokeThickness = 6;
@@ -122,6 +128,11 @@ function(config, environment) {
             CD1.mask = CDmask;
 
             depleteEnergy(20);
+            
+            var line1 = new Phaser.Line(this.game.input.mousePointer.x, this.game.input.mousePointer.y, playerObject.body.x, playerObject.body.y);
+            this.game.debug.geom(line1);
+            var point = platform.getIntersection(line1, 1, this.game);
+            console.log(point);
 
             this.game.add.tween(CD1).to({y: '+50'}, 4000, Phaser.Easing.Linear.None, true, 0, 0, false);
             this.game.add.tween(energybar).to({x: '-16'}, 100, Phaser.Easing.Linear.None, true, 0, 0, false);
@@ -228,6 +239,8 @@ function(config, environment) {
         {
             this.player.alive = false;
             this.player.player.kill();
+            totaldamage = 0;
+            totalenergy = 100;
             this.game.state.start('game-over');
         }
         else if (totaldamage > 700)

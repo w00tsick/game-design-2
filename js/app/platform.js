@@ -98,10 +98,11 @@ function(config) {
      Check if the platform is being hited by ray
      of vision from player
      */
-    Platform.prototype.getIntersection = function(ray)
+    Platform.prototype.getIntersection = function(ray, type)
     {
         var game = this.game;
         var status = false;
+        var intersect;
         this.platformGroup.forEach(function(plat) {
             // Creating lines for ray intersection
             var lines = [
@@ -114,7 +115,7 @@ function(config) {
             lines.forEach(function(line) {
                 //game.debug.geom(line);
                 //game.debug.geom(ray);
-                var intersect = Phaser.Line.intersects(ray, line);
+                intersect = Phaser.Line.intersects(ray, line);
                 if(intersect){
                     status = true;
                     return;
@@ -123,6 +124,10 @@ function(config) {
             if(status)
                 return;
         });
+        
+        if(type == 1){
+            return intersect;
+        }
         return status;
     }
 
