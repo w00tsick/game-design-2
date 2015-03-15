@@ -57,7 +57,7 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
 
             environment.filter.update();
 
-            // Jump cheking
+            // Jump cheking	   
             if(playerObject.body.velocity.y >= 0 && playerObject.body.velocity.y <= 20){
                 count += 1;
                 if(count > 10)
@@ -152,10 +152,23 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
                  *  Is he able to shoot
                  */
                 obj.faceCheck(player);
-                var ray = new Phaser.Line(obj.mob.body.x, obj.mob.body.y,playerObject.body.x, playerObject.body.y)
+		var mobx, moby, py, px;
+		if(obj.facing == "right")
+		    mobx = obj.mob.body.x + obj.mob.width;
+		else
+		    mobx = obj.mob.body.x;
 
-                if(!platform.getIntersection(ray, game))
-                    obj.shoot(playerObject.body.x, playerObject.body.y)
+		moby = obj.mob.body.y + (obj.mob.height/2);
+		
+		py = playerObject.body.y + (playerObject.height/2);
+		if(action.direction = "right")
+		    px = playerObject.body.x + playerObject.width;
+		else
+		    px = playerObject.body.x;
+
+		var ray = new Phaser.Line(mobx, moby, px, py)
+                if(!platform.getIntersection(ray,game))
+                    obj.shoot(px, py, mobx, moby);
                 else
                     obj.rest();
 

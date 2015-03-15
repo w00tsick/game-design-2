@@ -1,5 +1,5 @@
-define(['app/config'],
-function(config) {
+define(['app/config', 'app/action'],
+function(config, action) {
 
     "use strict";
 
@@ -71,7 +71,7 @@ function(config) {
         var bullets = this.game.add.group();
         bullets.enableBody = true;
         bullets.physicsBodyType = Phaser.Physics.ARCADE;
-        bullets.createMultiple(50, 'bullet');
+        bullets.createMultiple(5000, 'bullet');
         bullets.setAll('checkWorldBounds', true);
         bullets.setAll('outOfBoundsKill', true);
 
@@ -93,7 +93,7 @@ function(config) {
     Player.prototype.playMoveRight = function()
     {
         if(!Player.jumping)
-            this.player.play('run-right');
+            this.player.play('run-right');	
         else
             this.player.play('jump-right')
     }
@@ -110,7 +110,8 @@ function(config) {
 
     Player.prototype.rest = function(facing)
     {
-        if(!Player.jumping)
+	console.log("AAA");
+        if(!Player.jumping){
             switch (facing) {
         case "left":
             this.player.play('rest-left');
@@ -119,6 +120,7 @@ function(config) {
             this.player.play('rest-right');
             break;
             }
+	}
     }
 
     Player.prototype.jump = function(facing)
@@ -139,10 +141,15 @@ function(config) {
 
     Player.prototype.shoot = function()
     {
+	var pos;
         if (this.game.input.mousePointer.x >= this.player.x) {
             this.player.play('run-right');
+	    pos = "right";	    
+	    action.setDirection(pos);
         } else if (this.game.input.mousePointer.x <= this.player.x) {
+	    pos = "left";
             this.player.play('run-left');
+	    action.setDirection(pos);
         }
 
         if (this.game.time.now > this.nextFire
@@ -150,8 +157,13 @@ function(config) {
         {
             this.nextFire = this.game.time.now + this.fireRate;
             var bullet = this.bullets.getFirstDead();
-            bullet.reset(this.player.x, this.player.y + 50);
-            this.game.physics.arcade.moveToPointer(bullet, 1000);
+	    var px;
+	    if(pos == "right")
+		px = this.player.x + this.player.width - 25;
+	    else
+		px = this.player.x;	    
+            bullet.reset(px, this.player.y + 20);
+            this.game.physics.arcade.moveToPointer(bullet, 450);
         }
     }
 
