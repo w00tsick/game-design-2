@@ -1,5 +1,6 @@
-define(['app/config', 'app/environment','app/player', 'app/platform'],
-function(config, environment, player, platform) {
+define(['app/config', 'app/environment','app/player', 'app/platform',
+    'app/action'],
+function(config, environment, player, platform, action) {
 
     "use strict";
     var healthbar, battery, energybar;
@@ -16,6 +17,7 @@ function(config, environment, player, platform) {
         this.k1 = false;
         this.k2 = false;
         this.k3 = false;
+        this.direction = 'left';
     }
     HUD.prototype.build = function(game, player)
     {
@@ -110,14 +112,26 @@ function(config, environment, player, platform) {
     function abilityTwo () {
         if(CoolDown2 == 4 && singlePress2 == true && totalenergy >= 20){
             var playerObject = player.player;
+            this.direction = action.getDirection();
             singlePress2 = false;
             this.k2 = true;
-            
-            this.laser = this.game.add.sprite(playerObject.body.x, playerObject.body.y,'laser');
-            this.laser.anchor.setTo(0, .5);
-            this.game.physics.enable(this.laser, Phaser.Physics.ARCADE);
-            this.laser.enableBody = true;
-            this.laser.physicsBodyType = Phaser.Physics.ARCADE;
+
+            if(this.direction == 'left'){
+                this.laser = this.game.add.sprite(playerObject.body.x - 950, playerObject.body.y,'laser');
+                this.game.physics.enable(this.laser, Phaser.Physics.ARCADE);
+                this.laser.enableBody = true;
+                this.laser.body.collideWorldBounds = true;
+                this.laser.physicsBodyType = Phaser.Physics.ARCADE;
+                this.laser.anchor.setTo(0, .5);
+            }
+            else if(this.direction == 'right'){
+                this.laser = this.game.add.sprite(playerObject.body.x + 75, playerObject.body.y,'laser');
+                this.game.physics.enable(this.laser, Phaser.Physics.ARCADE);
+                this.laser.enableBody = true;
+                this.laser.body.collideWorldBounds = true;
+                this.laser.physicsBodyType = Phaser.Physics.ARCADE;
+                this.laser.anchor.setTo(0, .5);
+            }
                     
             text2 = this.game.add.text(213, (config.game.height - 100), '', { font: "40px Arial", fill: "#FFFF00", align: "center" });
             text2.stroke = '#000000';

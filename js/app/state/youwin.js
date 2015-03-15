@@ -17,7 +17,7 @@ function(config) {
             background.width = config.game.width;
             background.height = config.game.height;
 
-            var text = "You Win";
+            var text = "Game Over";
             var style = { font: "65px Arial", fill: "#ffffff", align: "center", cursor: "pointer"};
             var t = this.game.add.text(this.game.world.centerX - 170, this.game.world.centerY + 100, text, style);
  
