@@ -6,8 +6,31 @@ define(function() {
         game: {
             width: 1280,
             height: 720,
-            spawnpoints: [2500, 2000]
+
+            level: [ 
+                {
+                    spawnpoints: [2500, 2000],
+                    background: "background1",
+                    platforms: [
+                        { x: 0, y: 0 },
+                        { x: -600, y: -50 },
+                        { x: -1300, y: 50 },
+                        { x: -2300, y: 50 },
+                    ]
+                },
+                {
+                    spawnpoints: [2500, 2000],
+                    background: "background2",
+                    platforms: [
+                        { x: 0, y: 0 },
+                        { x: -800, y: -100 },
+                        { x: -1700, y: 50 },
+                        { x: -2000, y: 50 },
+                    ]
+                }
+            ] 
         },
+
         movement: {
             speed: 9 
         },
