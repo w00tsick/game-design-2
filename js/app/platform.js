@@ -98,7 +98,7 @@ function(config) {
      Check if the platform is being hited by ray
      of vision from player
      */
-    Platform.prototype.getIntersection = function(ray, type)
+    Platform.prototype.getIntersection = function(ray)
     {
         var game = this.game;
         var status = false;
@@ -124,10 +124,6 @@ function(config) {
             if(status)
                 return;
         });
-        
-        if(type == 1){
-            return intersect;
-        }
         return status;
     }
 

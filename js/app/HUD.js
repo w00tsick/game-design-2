@@ -47,10 +47,11 @@ function(config, environment, player, platform) {
 	    function abilityOne () {
 		if(CoolDown == 3 && singlePress1 == true && totalenergy >= 10){
 		    singlePress1 = false;
-		    
+		    var playerObject = player.player;
+                    
 		    // Missile
 		    this.k1 = true;
-		    this.missile = this.game.add.sprite(0,0,'missile');
+		    this.missile = this.game.add.sprite(playerObject.body.x,playerObject.body.y,'missile');
                     this.missile.anchor.setTo(.5, .5);
 		    this.game.physics.enable(this.missile, Phaser.Physics.ARCADE);
 		    this.missile.body.collideWorldBounds = true;
@@ -108,9 +109,16 @@ function(config, environment, player, platform) {
 
     function abilityTwo () {
         if(CoolDown2 == 4 && singlePress2 == true && totalenergy >= 20){
+            var playerObject = player.player;
             singlePress2 = false;
             this.k2 = true;
-            var playerObject = player.player;
+            
+            this.laser = this.game.add.sprite(playerObject.body.x, playerObject.body.y,'laser');
+            this.laser.anchor.setTo(0, .5);
+            this.game.physics.enable(this.laser, Phaser.Physics.ARCADE);
+            this.laser.enableBody = true;
+            this.laser.physicsBodyType = Phaser.Physics.ARCADE;
+                    
             text2 = this.game.add.text(213, (config.game.height - 100), '', { font: "40px Arial", fill: "#FFFF00", align: "center" });
             text2.stroke = '#000000';
             text2.strokeThickness = 6;
@@ -128,11 +136,6 @@ function(config, environment, player, platform) {
             CD1.mask = CDmask;
 
             depleteEnergy(20);
-            
-            var line1 = new Phaser.Line(this.game.input.mousePointer.x, this.game.input.mousePointer.y, playerObject.body.x, playerObject.body.y);
-            this.game.debug.geom(line1);
-            var point = platform.getIntersection(line1, 1, this.game);
-            console.log(point);
 
             this.game.add.tween(CD1).to({y: '+50'}, 4000, Phaser.Easing.Linear.None, true, 0, 0, false);
             this.game.add.tween(energybar).to({x: '-16'}, 100, Phaser.Easing.Linear.None, true, 0, 0, false);
@@ -198,6 +201,7 @@ function(config, environment, player, platform) {
 
     function updateCounter2() {
         CoolDown2--;
+        this.k2 = false;
         text2.setText(CoolDown2);
         if(CoolDown2 == 0){
             CoolDown2 = 4;

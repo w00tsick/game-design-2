@@ -17,6 +17,7 @@ function(config) {
             this.game.load.image('battery', 'assets/images/empty-battery.png');
             this.game.load.image('energy', 'assets/images/energy.png');
             this.game.load.image('missile', 'assets/images/missiles.png');
+            this.game.load.image('laser', 'assets/images/LaserBeam.png');
             this.game.load.audio('sfx', 'assets/audio/SoundEffects/LikeABoss.mp3');        
             //https://www.youtube.com/watch?v=i57YfVVYILU remember to give credit
             //he put this up for everyone to use

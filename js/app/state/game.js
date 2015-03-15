@@ -79,7 +79,7 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
 
             // Homing Missile
             if(HUD.k1){
-                HUD.missile.rotation = this.game.physics.arcade.moveToPointer(HUD.missile, 1000, this.game.input.activePointer, 500)
+                HUD.missile.rotation = game.physics.arcade.moveToPointer(HUD.missile, 1000, this.game.input.activePointer, 500)
                 game.physics.arcade.collide(HUD.missile, platform.platformGroup,
                     function(missile, plat) {
                         missile.kill();
@@ -87,9 +87,17 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
                 });
             }
             
+            //laser
             if(HUD.k2){
-                
+                HUD.laser.rotation = game.physics.arcade.angleToPointer(HUD.laser);
+                HUD.laser.body.x = playerObject.body.x + 75;
+                HUD.laser.body.y = playerObject.body.y;
             }
+            else if (HUD.k2 == false){
+                if(typeof HUD.laser != 'undefined')
+                    HUD.laser.kill();
+            }
+
 
             //nuke
             if(HUD.k3){
@@ -119,6 +127,13 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
                         obj.hurt(700);
                         HUD.score(50);
                 });
+                game.physics.arcade.collide(HUD.laser, obj.mob,
+                    function(laser, mob) {
+                        if(HUD.k2){
+                            obj.hurt(20);
+                            HUD.score(50);
+                        }
+                });
                 game.physics.arcade.overlap(obj.mob, player.player,
                     function(player, mob) {
                         console.log('test');
@@ -130,7 +145,7 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
                 obj.faceCheck(player);
                 var ray = new Phaser.Line(obj.mob.body.x, obj.mob.body.y,playerObject.body.x, playerObject.body.y)
 
-                if(!platform.getIntersection(ray, 2, game))
+                if(!platform.getIntersection(ray, game))
                     obj.shoot(playerObject.body.x, playerObject.body.y)
                 else
                     obj.rest();
