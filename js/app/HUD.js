@@ -1,5 +1,5 @@
-define(['app/config'],
-function(config) {
+define(['app/config', 'app/environment'],
+function(config, environment) {
 
     "use strict";
     var healthbar, battery, energybar;
@@ -43,7 +43,8 @@ function(config) {
 		    
 		    // Missile
 		    this.k1 = true;
-		    this.missile = this.game.add.sprite(0,0,'bullet');
+		    this.missile = this.game.add.sprite(0,0,'missile');
+                    this.missile.anchor.setTo(.5, .5);
 		    this.game.physics.enable(this.missile, Phaser.Physics.ARCADE);
 		    this.missile.body.collideWorldBounds = true;
 		    this.missile.enableBody = true;
@@ -128,6 +129,7 @@ function(config) {
     function finalAbility () {
         if(CoolDown3 == 5 && singlePress3 == true && totalenergy >= 40){
             singlePress3 = false;
+            this.k3 = true;
             
             text3 = this.game.add.text(313, (config.game.height - 100), '', { font: "40px Arial", fill: "#FFFF00", align: "center" });
             text3.stroke = '#000000';
@@ -149,6 +151,18 @@ function(config) {
             
             this.game.add.tween(CD1).to({y: '+50'}, 5000, Phaser.Easing.Linear.None, true, 0, 0, false);
             this.game.add.tween(energybar).to({x: '-32'}, 100, Phaser.Easing.Linear.None, true, 0, 0, false);
+            
+            var flash = this.game.add.graphics(0, 0);
+            flash.beginFill(0xffffff);
+            flash.drawRect(0, 0, 1280, 720);
+            flash.alpha = 1;
+            this.game.add.tween(environment.nuke).to({alpha: 1}, 2590, Phaser.Easing.Linear.None)
+            .to({alpha: 0}, 10, Phaser.Easing.Linear.None)
+            .start();
+            this.game.add.tween(flash).to({alpha: 0}, 600, Phaser.Easing.Linear.None)
+            .to({alpha: 1}, 2000,Phaser.Easing.Linear.None)
+            .to({alpha: 0}, 500, Phaser.Easing.Linear.None)
+            .start();
         }
     }
     
@@ -183,6 +197,7 @@ function(config) {
     
     function updateCounter3() {
         CoolDown3--;
+        this.k3 = false;
         text3.setText(CoolDown3);
         if(CoolDown3 == 0){
             CoolDown3 = 5;
