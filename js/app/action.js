@@ -13,9 +13,10 @@ function(config) {
 	Action.direction = dir;
     }
     
-    Action.prototype.init = function(game)
+    Action.prototype.init = function(game, player)
     {
         this.game = game;
+	this.player = player;
     }
 
     Action.prototype.go = function()
@@ -24,7 +25,7 @@ function(config) {
     }
 
     Action.prototype.stopped = function(key)
-    {
+    {	
 	if(key.keyCode != Phaser.Keyboard.SPACEBAR && key.keyCode != Phaser.Keyboard.W)
             Action.moving = false;	   
     }

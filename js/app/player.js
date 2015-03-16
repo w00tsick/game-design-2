@@ -42,7 +42,7 @@ function(config, action) {
         player.body.bounce.y = 0;
         player.body.gravity.y = 1000;
         player.body.collideWorldBounds = true;
-
+	
         this.player = player;
     }
 
@@ -99,12 +99,12 @@ function(config, action) {
     }
 
     Player.prototype.moveLeft = function()
-    {
+    {	
         this.player.body.x -= config.movement.speed / 2;
     }
 
     Player.prototype.moveRight = function()
-    {
+    {	
         this.player.body.x += config.movement.speed / 2;
     }
 
