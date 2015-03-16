@@ -10,13 +10,17 @@ function(config) {
         preload: function() {
             this.game.load.image('logo', 'assets/images/logo_crop_500.png');
             this.game.load.script('filter', 'https://cdn.rawgit.com/photonstorm/phaser/master/filters/Fire.js');
+            this.game.load.audio('nuclearblast', 'assets/audio/SoundEffects/nuclearblast.mp3');
+            this.game.load.audio('laser', 'assets/audio/SoundEffects/laser.mp3');
             this.game.load.image('button1', 'assets/images/hotkey1.png');
+            this.game.load.image('toolbar', 'assets/images/toolbar.png');
             this.game.load.image('button2', 'assets/images/Hotkey2.png');
             this.game.load.image('button3', 'assets/images/Hotkey3.png');
             this.game.load.image('healthUI', 'assets/images/PCAhZzQ.png');
             this.game.load.image('battery', 'assets/images/empty-battery.png');
             this.game.load.image('energy', 'assets/images/energy.png');
             this.game.load.image('missile', 'assets/images/missiles.png');
+            this.game.load.image('laser', 'assets/images/LaserBeam.png');
             this.game.load.audio('sfx', 'assets/audio/SoundEffects/LikeABoss.mp3');        
             //https://www.youtube.com/watch?v=i57YfVVYILU remember to give credit
             //he put this up for everyone to use

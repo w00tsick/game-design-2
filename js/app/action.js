@@ -5,9 +5,14 @@ function(config) {
 
     var Action = function() {}
 
-    Action.direction = null;
+    Action.direction = "left";
     Action.moving = false;
 
+    Action.prototype.setDirection = function(dir)
+    {
+	Action.direction = dir;
+    }
+    
     Action.prototype.init = function(game)
     {
         this.game = game;
@@ -18,9 +23,10 @@ function(config) {
         Action.moving = true;
     }
 
-    Action.prototype.stopped = function()
+    Action.prototype.stopped = function(key)
     {
-        Action.moving = false;
+	if(key.keyCode != Phaser.Keyboard.SPACEBAR && key.keyCode != Phaser.Keyboard.W)
+            Action.moving = false;	   
     }
 
     /**
@@ -28,15 +34,15 @@ function(config) {
      */
     Action.prototype.goLeft = function(deps)
     {
-	Action.direction = 'left';
+        Action.direction = 'left';
         deps.player.playMoveLeft();
         if (deps.environment.worldMoving)
-        {		
-	    deps.environment.move(config.movement.speed * -1, deps.platforms);
+        {       
+            deps.environment.move(config.movement.speed * -1, deps.platforms);
         }
         else
         {
-	    deps.player.moveLeft();
+            deps.player.moveLeft();
         }
     }
 
@@ -45,15 +51,15 @@ function(config) {
      */
     Action.prototype.goRight = function(deps)
     {
-	Action.direction = 'right';
+        Action.direction = 'right';
         deps.player.playMoveRight();
-	if (deps.environment.worldMoving)
+        if (deps.environment.worldMoving)
         {
-	    deps.environment.move(config.movement.speed, deps.platforms);
+            deps.environment.move(config.movement.speed, deps.platforms);
         }
         else
         {
-	    deps.player.moveRight();
+            deps.player.moveRight();
         }
     }
 
@@ -73,6 +79,11 @@ function(config) {
     Action.prototype.shoot = function(deps)
     {
         deps.player.shoot();
+    }
+    
+    Action.prototype.getDirection = function()
+    {
+        return Action.direction;
     }
 
     return new Action();
