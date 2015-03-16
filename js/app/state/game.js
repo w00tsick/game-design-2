@@ -38,12 +38,12 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
 
         },
         create: function() {
+            mobFactory.canspawn = true;
             environment.build(this.game);
             player.build(this.game);
             HUD.build(this.game, player);
             action.init(this.game);
             controls.bind(this.game, action, environment, player);
-            console.log(config.game.height - 150);
             // Reseting the bounds to prevent them to pass through the floor.
             this.game.world.setBounds(0, 0, config.game.width, config.game.height - 150);
         },
@@ -93,7 +93,6 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
 
             //laser
             if(HUD.k2){
-                console.log(HUD.direction);
                 if(HUD.direction == 'left'){
                     HUD.laser.body.x = playerObject.body.x - 950;
                     HUD.laser.body.y = playerObject.body.y;
@@ -149,7 +148,6 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
                 });
                 game.physics.arcade.overlap(obj.mob, player.player,
                     function(player, mob) {
-                        console.log('test');
                     }
                 );
 
