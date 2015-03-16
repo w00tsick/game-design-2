@@ -126,8 +126,8 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
                     function(bullet, mob) {
                         mob.kill();
                         fx.play('impact-segment');
-                        obj.hurt(50);
-                        HUD.score(50);
+                        obj.hurt(50 + HUD.power);
+                        HUD.score(50 - HUD.handicap);
                     }
                 );
 
@@ -136,15 +136,15 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
                         missile.kill();
                         fx2.play('bomb-segment');
                         HUD.k1 = false;
-                        obj.hurt(700);
-                        HUD.score(50);
+                        obj.hurt(700 + HUD.power);
+                        HUD.score(50 - HUD.handicap);
                 });
 
                 game.physics.arcade.overlap(HUD.laser, obj.mob,
                     function(laser, mob) {
                         if(HUD.k2){
-                            obj.hurt(1);
-                            HUD.score(1);
+                            obj.hurt(4 + (HUD.power / 20));
+                            HUD.score(4);
                         }
                 });
                 game.physics.arcade.overlap(obj.mob, player.player,
@@ -189,7 +189,7 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
                     function(bullet, player) {
                         player.kill();
                         fx.play('impact-segment');
-                        HUD.hurt(40);
+                        HUD.hurt(50 - HUD.defense);
                     }
                 );
             });
