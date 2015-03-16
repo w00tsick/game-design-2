@@ -110,7 +110,6 @@ function(config, action) {
 
     Player.prototype.rest = function(facing)
     {
-	console.log("AAA");
         if(!Player.jumping){
             switch (facing) {
         case "left":
