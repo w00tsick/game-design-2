@@ -24,6 +24,8 @@ function(config, environment, player, platform, action) {
     }
     HUD.prototype.build = function(game, player)
     {
+        totalenergy = 100;
+        totaldamage = 0;
         this.game = game;
         this.player = player;
         var totalscore = this.game.totalscore;
