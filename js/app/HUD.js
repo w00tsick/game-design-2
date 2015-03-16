@@ -18,6 +18,9 @@ function(config, environment, player, platform, action) {
         this.k2 = false;
         this.k3 = false;
         this.direction = 'left';
+        this.power = 0;
+        this.defense = 0;
+        this.handicap = 0;
     }
     HUD.prototype.build = function(game, player)
     {
@@ -29,8 +32,7 @@ function(config, environment, player, platform, action) {
         score = game.add.text(500, (config.game.height - 100), 'Score: ' + totalscore , { font: "40px Arial", fill: "#FFFF00", align: "center", stroke: '#000000', strokeThickness: 6});
         energytext = game.add.text(850, (config.game.height - 100), 'Energy: ', { font: "40px Arial", fill: "#FFFF00", align: "center", stroke: '#000000', strokeThickness: 6});
 
-        battery = game.add.sprite(1000, (config.game.height - 100), 'battery');
-        battery.scale.setTo(.4, .4);
+        battery = game.add.sprite(1000, (config.game.height - 101), 'battery');
         
         game.add.sprite(100, (config.game.height - 100), 'button1');
         game.add.sprite(200, (config.game.height - 100), 'button2');
@@ -275,10 +277,16 @@ function(config, environment, player, platform, action) {
         else if (totaldamage > 700)
         {
             this.player.level = 3;
+            this.defense = 40;
+            this.power = 40;
+            this.handicap = 40;
         }
         else if (totaldamage > 300)
         {
             this.player.level = 2;
+            this.power = 20;
+            this.defense = 20;
+            this.handicap = 20;
         }
 
         this.game.add.tween(healthbar).to({x: (-1800 - totaldamage)}, 50, Phaser.Easing.Bounce.Out, true, 0, 0, false);
