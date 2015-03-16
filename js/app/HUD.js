@@ -3,8 +3,8 @@ define(['app/config', 'app/environment','app/player', 'app/platform',
 function(config, environment, player, platform, action) {
 
     "use strict";
-    var healthbar, battery, energybar;
-    var mask, CDmask, maskenergy;
+    var healthbar, healthbar2, battery, energybar;
+    var mask, CDmask, maskenergy, minimask;
     var key1, key2, key3;
     var CD1, total = 0, score = 0, totalenergy = 100, totaldamage = 0;
     var CoolDown = 3, CoolDown2 = 4, CoolDown3 = 5;
@@ -29,21 +29,22 @@ function(config, environment, player, platform, action) {
         this.game = game;
         this.player = player;
         var totalscore = this.game.totalscore;
-
-
-        score = game.add.text(500, (config.game.height - 100), 'Score: ' + totalscore , { font: "40px Arial", fill: "#FFFF00", align: "center", stroke: '#000000', strokeThickness: 6});
-        energytext = game.add.text(850, (config.game.height - 100), 'Energy: ', { font: "40px Arial", fill: "#FFFF00", align: "center", stroke: '#000000', strokeThickness: 6});
-
-        battery = game.add.sprite(1000, (config.game.height - 101), 'battery');
         
-        game.add.sprite(100, (config.game.height - 100), 'button1');
-        game.add.sprite(200, (config.game.height - 100), 'button2');
-        game.add.sprite(300, (config.game.height - 100), 'button3');
+        game.add.sprite(0, config.game.height - 100, 'toolbar');
+
+        score = game.add.text(550, (config.game.height - 50), 'Score: ' + totalscore , { font: "40px Arial", fill: "#FFFFFF", align: "center", stroke: '#000000', strokeThickness: 6});
+        energytext = game.add.text(875, (config.game.height - 72), 'Energy: ', { font: "30px Arial", fill: "#FFFFFF", align: "center", stroke: '#000000', strokeThickness: 6});
+
+        battery = game.add.sprite(1004, (config.game.height - 72), 'battery');
+        
+        game.add.sprite(121, (config.game.height - 75), 'button1');
+        game.add.sprite(216, (config.game.height - 75), 'button2');
+        game.add.sprite(311, (config.game.height - 75), 'button3');
         game.add.sprite(3, -4, 'healthUI');
         
-        keytextQ = game.add.text(100, (config.game.height - 100), 'Q', { font: "15px Arial", fill: "#FFFFFF", align: "center", stroke: '#000000', strokeThickness: 4});
-        keytextE = game.add.text(200, (config.game.height - 100), 'E', { font: "15px Arial", fill: "#FFFFFF", align: "center", stroke: '#000000', strokeThickness: 4});
-        keytextR = game.add.text(300, (config.game.height - 100), 'R', { font: "15px Arial", fill: "#FFFFFF", align: "center", stroke: '#000000', strokeThickness: 4});
+        keytextQ = game.add.text(121, (config.game.height - 75), 'Q', { font: "15px Arial", fill: "#FFFFFF", align: "center", stroke: '#000000', strokeThickness: 4});
+        keytextE = game.add.text(216, (config.game.height - 75), 'E', { font: "15px Arial", fill: "#FFFFFF", align: "center", stroke: '#000000', strokeThickness: 4});
+        keytextR = game.add.text(311, (config.game.height - 75), 'R', { font: "15px Arial", fill: "#FFFFFF", align: "center", stroke: '#000000', strokeThickness: 4});
 
         //The following hotkeys may not need to be in HUD.js
         //I'm simply keeping them here while I work out functionality
@@ -65,7 +66,7 @@ function(config, environment, player, platform, action) {
                 this.missile.enableBody = true;
                 this.missile.physicsBodyType = Phaser.Physics.ARCADE;
                 
-                text1 = this.game.add.text(113, (config.game.height - 100), '', { font: "40px Arial", fill: "#FFFF00", align: "center" });
+                text1 = this.game.add.text(134, (config.game.height - 75), '', { font: "40px Arial", fill: "#FFFF00", align: "center" });
                 text1.stroke = '#000000';
                 text1.strokeThickness = 6;
                 text1.setText(CoolDown);
@@ -74,11 +75,11 @@ function(config, environment, player, platform, action) {
                 
                 CDmask = this.game.add.graphics(0, 0);
                 CDmask.beginFill(0xffffff);
-                CDmask.drawRect(100, (config.game.height - 100),50, 50);
+                CDmask.drawRect(121, (config.game.height - 75),50, 50);
                 
                 CD1 = this.game.add.graphics(0,0);
                 CD1.beginFill(0x000000, .5);
-                CD1.drawRect(100, (config.game.height - 100) ,50, 50);
+                CD1.drawRect(121, (config.game.height - 75) ,50, 50);
                 CD1.mask = CDmask;
                 
                 depleteEnergy(10);
@@ -95,22 +96,28 @@ function(config, environment, player, platform, action) {
         key3.onDown.add(finalAbility, this);
 
         //gradient health bar sprite
+        healthbar2 = game.add.sprite(37, (config.game.height - 87), 'minihealth');
+        game.add.tween(healthbar2).to({x: '+400'}, 1000, Phaser.Easing.Bounce.Out, true, 0, 0, false);
         healthbar = game.add.sprite(-2800, 30, 'health');
         game.add.tween(healthbar).to({x: '+1000'}, 1000, Phaser.Easing.Bounce.Out, true, 0, 0, false);
         //add mask to sprite such that only the area we want seen is
         mask = game.add.graphics(0, 0);
+        minimask = game.add.graphics(0, 0);
         //  Shapes drawn to the Graphics object must be filled.
         mask.beginFill(0xffffff);
+        minimask.beginFill(0xffffff);
         //  Here we'll draw a Rectangle
         mask.drawRect(200, 30 ,1000, 20);
+        minimask.drawRect(437, (config.game.height - 87), 400, 10);
         // And apply it to the Sprite
         healthbar.mask = mask; 
+        healthbar2.mask = minimask;
 
-        energybar = game.add.sprite(922, (config.game.height - 94), 'energy');
+        energybar = game.add.sprite(926, (config.game.height - 65), 'energy');
         game.add.tween(energybar).to({x: '+84'}, 1000, Phaser.Easing.Linear.None, true, 0, 0, false);
         maskenergy = game.add.graphics(0, 0);
         maskenergy.beginFill(0xffffff);
-        maskenergy.drawRect(1006, (config.game.height - 94) ,84, 31);
+        maskenergy.drawRect(1010, (config.game.height - 65) ,84, 31);
         energybar.mask = maskenergy; 
     }
 
@@ -143,7 +150,7 @@ function(config, environment, player, platform, action) {
                 fx4.play('laser-segment');
             }
                     
-            text2 = this.game.add.text(213, (config.game.height - 100), '', { font: "40px Arial", fill: "#FFFF00", align: "center" });
+            text2 = this.game.add.text(229, (config.game.height - 75), '', { font: "40px Arial", fill: "#FFFF00", align: "center" });
             text2.stroke = '#000000';
             text2.strokeThickness = 6;
             text2.setText(CoolDown2);
@@ -152,11 +159,11 @@ function(config, environment, player, platform, action) {
 
             CDmask = this.game.add.graphics(0, 0);
             CDmask.beginFill(0xffffff);
-            CDmask.drawRect(200, (config.game.height - 100),50, 50);
+            CDmask.drawRect(216, (config.game.height - 75),50, 50);
 
             CD1 = this.game.add.graphics(0,0);
             CD1.beginFill(0x000000, .5);
-            CD1.drawRect(200, (config.game.height - 100) ,50, 50);
+            CD1.drawRect(216, (config.game.height - 75) ,50, 50);
             CD1.mask = CDmask;
 
             depleteEnergy(20);
@@ -174,7 +181,7 @@ function(config, environment, player, platform, action) {
         
             singlePress3 = false;
             this.k3 = true;
-            text3 = this.game.add.text(313, (config.game.height - 100), '', { font: "40px Arial", fill: "#FFFF00", align: "center" });
+            text3 = this.game.add.text(324, (config.game.height - 75), '', { font: "40px Arial", fill: "#FFFF00", align: "center" });
             text3.stroke = '#000000';
             text3.strokeThickness = 6;
             text3.setText(CoolDown3);
@@ -184,11 +191,11 @@ function(config, environment, player, platform, action) {
 
             CDmask = this.game.add.graphics(0, 0);
             CDmask.beginFill(0xffffff);
-            CDmask.drawRect(300, (config.game.height - 100),50, 50);
+            CDmask.drawRect(311, (config.game.height - 75),50, 50);
 
             CD1 = this.game.add.graphics(0,0);
             CD1.beginFill(0x000000, .5);
-            CD1.drawRect(300, (config.game.height - 100) ,50, 50);
+            CD1.drawRect(311, (config.game.height - 75) ,50, 50);
             CD1.mask = CDmask;
 
             depleteEnergy(40);
@@ -257,6 +264,7 @@ function(config, environment, player, platform, action) {
         totalenergy = totalenergy + amount;
         if (totalenergy >= 100)
             totalenergy = 100;
+        this.game.add.tween(energybar).to({x: 1006}, 100, Phaser.Easing.Linear.None, true, 0, 0, false);
     }
 
     HUD.prototype.score = function(points){
@@ -292,6 +300,7 @@ function(config, environment, player, platform, action) {
         }
 
         this.game.add.tween(healthbar).to({x: (-1800 - totaldamage)}, 50, Phaser.Easing.Bounce.Out, true, 0, 0, false);
+        this.game.add.tween(healthbar2).to({x: 437 - (totaldamage*.4)}, 50, Phaser.Easing.Bounce.Out, true, 0, 0, false);
         console.log(this.player.level);
         console.log(this.player.alive);
     }
