@@ -13,6 +13,7 @@ function(config) {
             this.game.load.audio('nuclearblast', 'assets/audio/SoundEffects/nuclearblast.mp3');
             this.game.load.audio('laser', 'assets/audio/SoundEffects/laser.mp3');
             this.game.load.image('button1', 'assets/images/hotkey1.png');
+            this.game.load.image('toolbar', 'assets/images/toolbar.png');
             this.game.load.image('button2', 'assets/images/Hotkey2.png');
             this.game.load.image('button3', 'assets/images/Hotkey3.png');
             this.game.load.image('healthUI', 'assets/images/PCAhZzQ.png');
