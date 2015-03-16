@@ -59,12 +59,12 @@ define(function() {
             },
 
             mob: {
-                restRight: [0,6,8,9],
-                restLeft: [0],
-                runRight: [0,6,8,9],
-                runLeft: [0,6,8,9],
-                jumpRight: [30, 31],
-                jumpLeft: [32, 33]
+                restRight: [0],
+                restLeft: [6],
+                runRight: [0,1,2,1,0],
+                runLeft: [6,5,4,5,6],
+                jumpRight: [1],
+                jumpLeft: [5]
             }
         },
         platform: {

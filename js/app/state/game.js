@@ -35,7 +35,7 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
             this.game.load.image('minihealth', 'assets/images/minihealthbar.png');
             this.game.load.spritesheet('player', 'assets/images/player-sprite-wire.png', 400, 400);
             this.game.load.image('bullet', 'assets/images/bullet-temp.png');
-            this.game.load.spritesheet('mob', 'assets/images/player-badguyca.png', 100, 100);
+	    this.game.load.spritesheet('mob', 'assets/images/Soldier3_SpriteSheet.png', 100, 100);
 
         },
         create: function() {
