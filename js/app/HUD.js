@@ -301,8 +301,7 @@ function(config, environment, player, platform, action) {
 
         this.game.add.tween(healthbar).to({x: (-1800 - totaldamage)}, 50, Phaser.Easing.Bounce.Out, true, 0, 0, false);
         this.game.add.tween(healthbar2).to({x: 437 - (totaldamage*.4)}, 50, Phaser.Easing.Bounce.Out, true, 0, 0, false);
-        console.log(this.player.level);
-        console.log(this.player.alive);
+        this.game.add.tween(healthbar).to({x: (-1800 - totaldamage)}, 50, Phaser.Easing.Bounce.Out, true, 0, 0, false);                
     }
     return new HUD();
 

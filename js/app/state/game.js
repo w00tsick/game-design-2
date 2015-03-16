@@ -45,11 +45,16 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
             HUD.build(this.game, player);
             action.init(this.game);
             controls.bind(this.game, action, environment, player);
+	    this.game.physics.startSystem(Phaser.Physics.ARCADE);
             // Reseting the bounds to prevent them to pass through the floor.
             this.game.world.setBounds(0, 0, config.game.width, config.game.height - 150);
         },
-
-        update: function() {
+	
+	render: function(){
+	  //this.game.debug.bodyInfo(player.player, 16, 250);  
+	},
+	
+        update: function() {	    
             var game = this.game;
             var fx = this.game.add.audio('impact');
             fx.addMarker('impact-segment', 0, .5);
@@ -70,16 +75,7 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
                 player.setJumping(true);
                 count = 0;
             }       
-            game.physics.arcade.collide(playerObject, platform.platformGroup,
-                function (playerr, platformm){
-                    // trying to fix collision, but it does not work because of tween is being use to move platforms
-                    player.player.body.velocity.x = 0;
-                    platformm.body.velocity.x = 0;
-                    // && (player.player.body.y + player.player.height) > platformm.body.y
-                    if(!platformm.is.ground){       
-                        environment.ableMove = false;
-                    }
-            });
+            game.physics.arcade.collide(playerObject, platform.platformGroup);
 
             // Homing Missile
             if(HUD.k1){
@@ -90,9 +86,15 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
                         fx2.play('bomb-segment');
                         HUD.k1 = false;
                 });
+		game.physics.arcade.overlap(HUD.missile, platform.platformGroup,
+                    function(missile, plat) {
+                        missile.kill();
+                        HUD.k1 = false;
+                });
             }
 
             //laser
+
             if(HUD.k2){
                 if(HUD.direction == 'left'){
                     HUD.laser.body.x = playerObject.body.x - 950;
@@ -115,12 +117,20 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
                     obj.hurt(1000);
                     HUD.score(50);
                 });
-            }
-
+            }	    
             mobObjects.forEach(function(obj) {
                 obj.mob.healthGraphic.x = obj.mob.body.x + 30;
                 obj.mob.healthGraphic.y = obj.mob.body.y;
                 game.physics.arcade.collide(obj.mob, platform.platformGroup);
+		game.physics.arcade.overlap(obj.mob, platform.platformGroup,
+		    function(mob, platform){
+			if(!platform.is.ground){
+			    mob.body.gravity.y = 0;
+			    mob.body.velocity.y = 0;
+			    mob.body.y = platform.body.y - mob.width - 1;
+			}
+		    }
+                );
                 game.physics.arcade.overlap(player.bullets, obj.mob,
                     // TODO for some reason these are backwards ?
                     function(bullet, mob) {
@@ -138,6 +148,14 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
                         HUD.k1 = false;
                         obj.hurt(700 + HUD.power);
                         HUD.score(50 - HUD.handicap);
+                });
+		
+		game.physics.arcade.overlap(HUD.missile, obj.mob,
+                    function(missile, mob) {
+                        missile.kill();
+                        HUD.k1 = false;
+                        obj.hurt(700);
+                        HUD.score(50);
                 });
 
                 game.physics.arcade.overlap(HUD.laser, obj.mob,
@@ -178,8 +196,14 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
 
                 var mobBullets = obj.bullets;
                 game.physics.arcade.collide(mobBullets, platform.platformGroup,
-                    function(bullet, platform) {
-                        bullet.kill();
+                    function(bullet, platform) {                        
+			bullet.kill();
+                    }
+                );
+		
+		game.physics.arcade.overlap(mobBullets, platform.platformGroup,
+                    function(bullet, platform) {                        
+			bullet.kill();
                     }
                 );
 
@@ -194,10 +218,16 @@ function(config, environment, HUD, player, action, mobFactory, controls, platfor
             });
 
             game.physics.arcade.collide(bullets, platform.platformGroup,
-                function(bullet, platform) {
+                function(bullet, platform) {		    
                     bullet.kill();
                 }
             );
+
+	    game.physics.arcade.overlap(bullets, platform.platformGroup,
+		function(bullet, platform) {
+                    bullet.kill();		
+		}
+	    );
 
             config.game.level[game.currentLevel].spawnpoints.forEach(function(spawnpoint) {
                 if (Math.abs(environment.backdrop.x) < spawnpoint)

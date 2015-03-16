@@ -9,6 +9,7 @@ function(config) {
     {
         this.game = game;
         this.action = action;
+	this.player = player;
 
         this.keyBindings = [
             bindKeyDependencies(action.stop),
@@ -74,7 +75,7 @@ function(config) {
             bindings.forEach(function(key) {
                 var actionObject = this.action;
                 key.onDown.add(function() { actionObject.go(); });
-                key.onUp.add(function() { actionObject.stopped(key); });
+                key.onUp.add(function() { actionObject.stopped(key);});
                 if (key.isDown) { action(); }
             }, this);
         }).bind(this);
