@@ -3,20 +3,21 @@ function(config) {
 
     "use strict";
 
-    var Mob = function(game, spawnpoint, isBoss, hitpoints)
+    var Mob = function(game, spawnpoint, isBoss, hitpoints, spritename)
     {
+        var spritename = typeof spritename != 'undefined' ? spritename : 'mob';
         this.isBoss = isBoss;
         this.hitpoints = hitpoints;
         this.game = game;
-        this.registerSprite(game, spawnpoint);
+        this.registerSprite(game, spawnpoint, spritename);
         this.registerAnimations();
         this.registerBullets();
         this.facing = "right"
     }
 
-    Mob.prototype.registerSprite = function(game, spawnpoint)
+    Mob.prototype.registerSprite = function(game, spawnpoint, spritename)
     {
-        var mob = game.add.sprite(spawnpoint, 0, 'mob');
+        var mob = game.add.sprite(spawnpoint, 0, spritename);
         game.physics.arcade.enable(mob);
         mob.frame = 11;
         mob.width = 200;
